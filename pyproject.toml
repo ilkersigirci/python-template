@@ -1,0 +1,211 @@
+[project]
+name = "python_template"
+version = "0.0.0"
+description = "Python Template"
+requires-python = ">=3.8,<3.9"
+
+authors = [
+    {name = "template", email = "template@github.com"},
+]
+maintainers = [
+    {name = "template", email = "template@github.com"},
+]
+readme = "README.md"
+
+keywords = [
+    "template"
+]
+
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3.8",
+]
+
+dependencies = [
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+#    "pytest-timeout",
+]
+
+doc = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    # "mdx-include",
+    # "mkdocs-markdownextradata-plugin",
+]
+
+dev = [
+    "black[d]",
+    "pre-commit",
+    "ruff==0.0.246",
+    "mypy",
+    "build",
+]
+
+all = [
+]
+
+[project.urls]
+repository = "https://github.com/ilkersigirci/python-template"
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.package-data]
+"*" = [
+    "*.yaml",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--ignore docs --verbose"
+testpaths = "tests"
+filterwarnings = [
+    "ignore::UserWarning",
+]
+
+# TODO: Make them inherit from yaml file
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)-20s :: %(name)-8s :: %(levelname)-8s :: %(filename)s:%(lineno)d - (%(funcName)s) :: %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+
+[tool.black]
+# required-version = "23.1.0"
+line-length = 88
+color = true
+# skip-string-normalization = true
+extra-exclude = '''
+/(
+    \.git
+  | _build
+)/
+'''
+
+[tool.ruff]
+target-version = "py38"
+# required-version = "0.0.238"
+line-length = 88
+select = [
+    "E",  # pycodestyle errors (default)
+    "F",  # pyflakes (default)
+    "W",  # pycodestyle warnings
+    "I001",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "Q",  # flake8-quotes
+    "D",  # flake8-docstrings
+    "T",  # (disallow print statements) keep debugging statements out of the codebase
+    "RUF", # Enable all ruff-specific checks
+    # (pylint) use all pylint rules (ruff currently implements only a subset of
+    # pylint's rules)
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+]
+#extend-select = []
+respect-gitignore = true
+# fix = true
+unfixable = [
+    "F401" # Unused imports.
+]
+ignore-init-module-imports = true
+# ignore = []
+extend-ignore = [
+    "E501",  # Line too long, handled by black
+    # "B008",  # Do not perform function calls in argument defaults
+    # "C901",  # Too complex
+    "D107", # "Missing docstring in __init__",
+]
+extend-exclude = [
+    "docs",
+    "tests",
+]
+
+# Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+# "path/to/file.py" = ["E402"]
+# 'python_template/__init__.py' = ['F405', 'F403']
+
+# [tool.ruff.flake8-quotes]
+# inline-quotes = "single"
+# multiline-quotes = "double"
+# docstring-quotes = "double"
+
+[tool.ruff.flake8-import-conventions.extend-aliases]
+some_alias = ""
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.ruff.isort]
+combine-as-imports = true
+# force-wrap-aliases = true
+# known-first-party = ["SomeLibrary"]
+# known-third-party = ["SomeLibrary"]
+
+# mypy section
+# Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
+[tool.mypy]
+python_version = "3.8"
+files = ["python_template"]
+# exclude = ['^tests/']
+strict = true
+show_error_codes = true
+# ignore_missing_imports = true
+
+# TODO: Check whether this is working
+[[tool.mypy.overrides]]
+module = "python_template.tests.*"
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.coverage.run]
+source = ['python_template']
+branch = true
+context = '${CONTEXT}'
+
+[tool.coverage.report]
+precision = 2
+exclude_lines = [
+    'pragma: no cover',
+    'raise NotImplementedError',
+    'if TYPE_CHECKING:',
+    '@overload',
+]
+# show_missing = True
+
+# [tool.coverage.paths]
+# source = [
+#     'python_template/',
+# ]
+
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel", "build"]
+build-backend = "setuptools.build_meta"

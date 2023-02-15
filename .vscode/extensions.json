@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "GitLab.gitlab-workflow",
+    "bungcip.better-toml",
+    "EditorConfig.EditorConfig",
+    "redhat.vscode-yaml",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "njpwerner.autodocstring",
+    "charliermarsh.ruff",
+    "ms-python.black-formatter",
+    // "matangover.mypy",
+  ],
+  "unwantedRecommendations": [
+    "ms-python.isort"
+  ]
+}

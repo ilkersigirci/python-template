@@ -1,0 +1,62 @@
+stages:
+  - lint
+  - tests
+  - package
+  - doc
+
+image: python:3.8
+
+lint:
+  stage: lint
+  script: |
+    pip install --upgrade pip
+    echo "*********** Pip updated ***********"
+    make install-lint
+    echo "*********** Linter installed ***********"
+    make lint
+    echo "*********** Successfully linted the project ***********"
+  only:
+    - merge_requests
+
+tests:
+  stage: tests
+  script: |
+    sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
+    python -m pip install --upgrade pip setuptools
+    make install-test
+    make test
+  only:
+    - merge_requests
+  # artifacts:
+  #   reports:
+  #     cobertura: coverage.xml
+
+package:
+  stage: package
+  rules:
+    - if: $CI_COMMIT_TAG # Run this job when a tag is created manually
+  script: |
+    sed -i "s/0.0.0/$CI_COMMIT_TAG/" pyproject.toml
+    echo "*********** Renamed version with COMMIT_TAG: $CI_COMMIT_TAG ***********"
+    make build
+    echo "*********** Building finished ***********"
+    make publish
+    echo "*********** Uploading finished ***********"
+
+pages:
+  stage: doc
+  script: |
+    pip install --upgrade pip
+    echo "*********** Pip updated ***********"
+    make install-doc
+    echo "*********** Docs dependencies installed ***********"
+    mkdocs build
+    echo "*********** Successfully builded the project documentation ***********"
+  # only:
+  #   - main
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+      when: manual
+  artifacts:
+    paths:
+      - public
