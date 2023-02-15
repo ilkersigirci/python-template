@@ -1,0 +1,33 @@
+name: Test the module
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+        # os: [ubuntu-20.04, ubuntu-22.04]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the module and its dependencies
+        run: |
+          make install
+      - name: Show dependencies
+        run: python -m pip list
+      - name: Run tests
+        run: make test-parallel
+      - name: Publish code coverage
+        uses: codecov/codecov-action@v3

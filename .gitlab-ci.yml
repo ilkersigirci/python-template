@@ -50,7 +50,7 @@ pages:
     echo "*********** Pip updated ***********"
     make install-doc
     echo "*********** Docs dependencies installed ***********"
-    mkdocs build
+    make doc
     echo "*********** Successfully builded the project documentation ***********"
   # only:
   #   - main
