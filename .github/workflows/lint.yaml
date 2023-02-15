@@ -1,0 +1,30 @@
+name: Lint the module
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # needs: NOTHING
+  lint:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Pip updated
+        run: |
+          pip install --upgrade pip
+      - name: Lint installation
+        run: |
+          make install-lint
+      - name: Linting
+        run: |
+          make lint

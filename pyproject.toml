@@ -2,7 +2,7 @@
 name = "python_template"
 version = "0.0.0"
 description = "Python Template"
-requires-python = ">=3.8,<3.9"
+requires-python = ">=3.8,<3.12"
 
 authors = [
     {name = "template", email = "template@github.com"},
@@ -28,6 +28,9 @@ classifiers = [
     "Operating System :: Unix",
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 
 dependencies = [
@@ -173,7 +176,7 @@ combine-as-imports = true
 # mypy section
 # Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
 [tool.mypy]
-python_version = "3.8"
+# python_version = "3.8"
 files = ["python_template"]
 # exclude = ['^tests/']
 strict = true
