@@ -12,12 +12,12 @@ TEST_MARKER=placeholder
 TEST_OUTPUT_DIR=tests_outputs
 PRECOMMIT_FILE_PATHS=./python_template/placeholder.py
 
-.PHONY: help install install-test test test-parallel clean build publish doc pre-commit format lint
+.PHONY: help install install-test test test-parallel clean build publish doc doc-github pre-commit format lint
 .DEFAULT_GOAL=help
 
 .SILENT: help update_pip create_conda instal-base install install-no-cache install-test install-lint install-build test-one \
 test-one-parallel test-all test-all-parallel test-coverage test-coverage-parallel clean-build clean-test test-docs \
-build build-wheel publish doc doc-dev pre-commit-one pre-commit lint format typecheck typecheck-no-cache typecheck-report
+build build-wheel publish doc doc-github doc-dev pre-commit-one pre-commit lint format typecheck typecheck-no-cache typecheck-report
 
 
 help:
@@ -35,7 +35,7 @@ install-base: update_pip ## Installs only package dependencies
 	pip install --editable .
 
 install: update_pip ## Installs the development and test version of the package
-	pip install --editable .[test,dev]
+	pip install --editable .[test,doc,dev]
 	pre-commit install
 
 install-no-cache: ## Installs the development and test version of the package
@@ -119,7 +119,7 @@ publish: update_pip ## Publish the package to pypi
 doc: ## Build documentation with mkdocs
 	mkdocs build
 
-doc-github:
+doc-github: ## Build documentation with mkdocs and deploy to github pages
 	mkdocs gh-deploy
 
 doc-dev: ## Show documentation preview with mkdocs
