@@ -54,9 +54,9 @@ doc = [
 ]
 
 dev = [
-    "black[d]",
-    "pre-commit",
+    "black[d]==23.1.0",
     "ruff==0.0.246",
+    "pre-commit",
     "mypy",
     "build",
 ]

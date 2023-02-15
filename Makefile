@@ -46,7 +46,7 @@ install-test: ## Install only test version of the package
 	pip install .[test]
 
 install-lint:
-	pip install ruff==0.0.193
+	pip install black[d]==23.1.0 ruff==0.0.246
 
 install-build:
 	pip install -U build
