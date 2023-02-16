@@ -15,12 +15,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-      - name: Pip updated
+      - name: Pip Update
         run: |
-          pip install --upgrade pip
-      - name: Doc installation
+          make update-pip
+      - name: Docs Dependency Installation
         run: |
           make install-doc
-      - name: Documenting
+      - name: Build the project documentation
         run: |
-          make doc
+          make doc-github
