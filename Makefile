@@ -47,6 +47,7 @@ install: ## Installs the development and test version of the package
 	# $(MAKE) update-pip
 	# pip install ${PYPI_URLS} --editable .[test,doc,dev]
 	########### POETRY ###########
+	$(MAKE) install-poetry
 	poetry install
 
 	$(MAKE) install-precommit
