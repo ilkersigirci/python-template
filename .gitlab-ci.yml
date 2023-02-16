@@ -9,22 +9,26 @@ image: python:3.8
 lint:
   stage: lint
   script: |
-    pip install --upgrade pip
-    echo "*********** Pip updated ***********"
+    echo "*********** Pip Update ***********"
+    make update-pip
+    echo "*********** Lint Dependency Installation ***********"
     make install-lint
-    echo "*********** Linter installed ***********"
+    echo "*********** Lint the Project ***********"
     make lint
-    echo "*********** Successfully linted the project ***********"
   only:
     - merge_requests
 
 tests:
   stage: tests
   script: |
+    echo "*********** Disable Logger Outputs ***********"
     sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
-    python -m pip install --upgrade pip setuptools
+    echo "*********** Pip Update ***********"
+    make update-pip
+    echo "*********** Install the Project with Test Dependencies ***********"
     make install-test
-    make test
+    echo "*********** Test the Project ***********"
+    make test-parallel
   only:
     - merge_requests
   # artifacts:
@@ -36,22 +40,28 @@ package:
   rules:
     - if: $CI_COMMIT_TAG # Run this job when a tag is created manually
   script: |
+    echo "*********** Rename `version` with COMMIT_TAG: $CI_COMMIT_TAG ***********"
     sed -i "s/0.0.0/$CI_COMMIT_TAG/" pyproject.toml
-    echo "*********** Renamed version with COMMIT_TAG: $CI_COMMIT_TAG ***********"
+    echo "*********** Pip Update ***********"
+    make update-pip
+    echo "*********** Build Dependency Installation ***********"
+    make install-build
+    echo "*********** Build the Project ***********"
     make build
-    echo "*********** Building finished ***********"
+    echo "*********** Publish Dependency Installation ***********"
+    make install-publish
+    echo "*********** Publish the Project ***********"
     make publish
-    echo "*********** Uploading finished ***********"
 
 pages:
   stage: doc
   script: |
-    pip install --upgrade pip
-    echo "*********** Pip updated ***********"
+    echo "*********** Pip Update ***********"
+    make update-pip
+    echo "*********** Docs Dependency Installation ***********"
     make install-doc
-    echo "*********** Docs dependencies installed ***********"
+    echo "*********** Build the project documentation ***********"
     make doc
-    echo "*********** Successfully builded the project documentation ***********"
   # only:
   #   - main
   rules:

@@ -19,12 +19,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-      - name: Pip updated
+      - name: Pip Update
         run: |
-          pip install --upgrade pip
-      - name: Lint installation
+          make update-pip
+      - name: Lint Dependency Installation
         run: |
           make install-lint
-      - name: Linting
+      - name: Lint the Project
         run: |
           make lint

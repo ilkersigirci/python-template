@@ -21,13 +21,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Install the module and its dependencies
+      - name: Disable Logger Outputs
         run: |
-          make install
-      - name: Show dependencies
-        run: python -m pip list
-      - name: Run tests
+          sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
+      - name: Pip Update
+        run: |
+          make update-pip
+      - name: Install the Project with Test Dependencies
+        run: |
+          make install-test
+      # - name: Show dependencies
+      #   run: python -m pip list
+      - name: Test the Project
         run: make test-parallel
-      - name: Publish code coverage
-        uses: codecov/codecov-action@v3
+      # - name: Publish code coverage
+      #   uses: codecov/codecov-action@v3
