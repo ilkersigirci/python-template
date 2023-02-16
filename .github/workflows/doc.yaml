@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   doc:
     runs-on: ubuntu-22.04
@@ -15,17 +18,17 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
+      - name: Set up cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ github.ref }}
+          path: .cache
       - name: Pip Update
         run: |
           make update-pip
       - name: Docs Dependency Installation
         run: |
           make install-doc
-      - name: Build the project documentation
-        run: |
-          make doc
       - name: Deploy the documentation to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+        run: |
+          make doc-github

@@ -124,7 +124,7 @@ doc: ## Build documentation with mkdocs
 	@mkdocs build
 
 doc-github: ## Build documentation with mkdocs and deploy to github pages
-	@mkdocs gh-deploy
+	@mkdocs gh-deploy --force
 
 doc-dev: ## Show documentation preview with mkdocs
 	@mkdocs serve -w ${PACKAGE}
