@@ -58,7 +58,7 @@ dev = [
     "ruff==0.0.246",
     "pre-commit",
     "mypy",
-    "build",
+    # "build", # NOTE: Uncomment if using pip instead of poetry.
 ]
 
 all = [

@@ -25,10 +25,10 @@ jobs:
           path: .cache
       - name: Pip Update
         run: |
-          make update-pip
+          make -s update-pip
       - name: Docs Dependency Installation
         run: |
-          make install-doc
+          make -s install-doc
       - name: Deploy the documentation to GitHub Pages
         run: |
-          make doc-github
+          make -s doc-github

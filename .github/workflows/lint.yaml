@@ -21,10 +21,10 @@ jobs:
           python-version: '3.8'
       - name: Pip Update
         run: |
-          make update-pip
+          make -s update-pip
       - name: Lint Dependency Installation
         run: |
-          make install-lint
+          make -s install-lint
       - name: Lint the Project
         run: |
-          make lint
+          make -s lint
