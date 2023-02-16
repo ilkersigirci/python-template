@@ -11,7 +11,7 @@ TEST_DIR=./tests
 TEST_MARKER=placeholder
 TEST_OUTPUT_DIR=tests_outputs
 PRECOMMIT_FILE_PATHS=./python_template/__init__.py
-PYPI_URLS=""
+PYPI_URLS=
 
 .PHONY: help install test clean build publish doc pre-commit format lint
 .DEFAULT_GOAL=help
