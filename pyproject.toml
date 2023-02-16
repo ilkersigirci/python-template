@@ -1,4 +1,4 @@
-[tool.project]
+[tool.poetry]
 name = "python_template"
 version = "0.0.0"
 description = "Python Template"
@@ -43,7 +43,7 @@ generate-setup-file = false
 
 ## poetry source add --secondary private-pypi http://private-pypi/simple/
 # [[tool.poetry.source]]
-# name = "predy-pypi"
+# name = "private-pypi"
 # url = "http://private-pypi/simple/" # NOTE: /simple/ is important
 # default = false
 # secondary = true
@@ -81,7 +81,7 @@ addopts = [
 #    "--strict-markers",
 #    "--doctest-modules",
     # NOTE: cov is not working with pycharm debugger. Enable it later!
-#    "--cov predy_ts",
+#    "--cov python_template",
 #    "--cov-report=xml",
 #    "--cov-report html",
 ]
@@ -215,8 +215,8 @@ exclude_lines = [
 # create = false
 
 # [repositories]
-# [repositories.predy-pypi]
-# url = "http://pypi.predy.ai/"
+# [repositories.private-pypi]
+# url = "http://private-pypi/"
 ##################################################
 
 [build-system]
