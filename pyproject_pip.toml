@@ -1,15 +1,16 @@
-[tool.poetry]
+[project]
 name = "python_template"
 version = "0.0.0"
 description = "Python Template"
-readme = "README.md"
+requires-python = ">=3.8,<3.12"
 
 authors = [
-    "template <template@github.com>",
+    {name = "template", email = "template@github.com"},
 ]
 maintainers = [
-    "template <template@github.com>",
+    {name = "template", email = "template@github.com"},
 ]
+readme = "README.md"
 
 keywords = [
     "template"
@@ -32,61 +33,59 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 
-[tool.poetry.urls]
+dependencies = [
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+#    "pytest-timeout",
+]
+
+doc = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    # "mdx-include",
+    # "mkdocs-markdownextradata-plugin",
+]
+
+dev = [
+    "black[d]==23.1.0",
+    "ruff==0.0.246",
+    "pre-commit",
+    "mypy",
+    # "build", # NOTE: Uncomment if using pip instead of poetry.
+]
+
+all = [
+]
+
+[project.urls]
 repository = "https://github.com/ilkersigirci/python-template"
 
-[tool.poetry.build]
-generate-setup-file = false
+[tool.setuptools]
+zip-safe = true
 
-#[tool.poetry.scripts]
-#my_scripts = [my_package.scripts/script:<some_method>]
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests", "tests.*"]
 
-## poetry source add --secondary private-pypi http://private-pypi/simple/
-# [[tool.poetry.source]]
-# name = "private-pypi"
-# url = "http://private-pypi/simple/" # NOTE: /simple/ is important
-# default = false
-# secondary = true
-
-[tool.poetry.dependencies]
-python = ">=3.8,<3.12"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
-pytest-rerunfailures = "^10.2"
-pytest-xdist = {version = ">=3.0", extras = ["psutil"]}
-#pytest-timeout = ""
-
-[tool.poetry.group.doc.dependencies]
-mkdocs = "^1.4.2"
-mkdocs-material = "^9.0.12"
-mkdocstrings = {version = "^0.20.0", extras = ["python"]}
-# mdx-include = "^1.4.2"
-# mkdocs-markdownextradata-plugin = "^0.2.5"
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^2.19.0"
-ruff = "0.0.246"
-black = {version = "23.1.0", extras = ["d", "jupyter"]}
-mypy = "^1.0.0"
+[tool.setuptools.package-data]
+"*" = [
+    "*.yaml",
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = [
-    "--import-mode=importlib",
-    "--color=yes",
-    "--verbose",
-#    "--durations=0",
-#    "--strict-markers",
-#    "--doctest-modules",
-    # NOTE: cov is not working with pycharm debugger. Enable it later!
-#    "--cov python_template",
-#    "--cov-report=xml",
-#    "--cov-report html",
+addopts = "--ignore docs --verbose"
+testpaths = "tests"
+filterwarnings = [
+    "ignore::UserWarning",
 ]
-
-testpaths = ["tests"]
 
 # TODO: Make them inherit from yaml file
 log_cli = true
@@ -210,15 +209,6 @@ exclude_lines = [
 #     'python_template/',
 # ]
 
-######### Local poetry.toml example ##############
-# [virtualenvs]
-# create = false
-
-# [repositories]
-# [repositories.private-pypi]
-# url = "http://private-pypi/"
-##################################################
-
 [build-system]
-requires = ["poetry-core==1.4.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=64.0.0", "wheel", "build"]
+build-backend = "setuptools.build_meta"
