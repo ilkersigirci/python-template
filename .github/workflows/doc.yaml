@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  lint:
+  doc:
     runs-on: ubuntu-22.04
 
     steps:
@@ -23,4 +23,9 @@ jobs:
           make install-doc
       - name: Build the project documentation
         run: |
-          make doc-github
+          make doc
+      - name: Deploy the documentation to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
