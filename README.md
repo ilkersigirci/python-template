@@ -8,12 +8,31 @@
 
 # Install
 
--   Default installation
+## Default installation
 
 ```bash
 conda create -n python-template python=3.8 -y
 conda activate python-template
 make install
+```
+
+## Docker
+
+```bash
+# Development build (800 MB)
+docker build --tag python-template --file docker/Dockerfile --target development .
+
+# Test build
+# docker build --tag python-template --file docker/Dockerfile --target test .
+
+# Production build
+docker build --tag python-template --file docker/Dockerfile --target production .
+```
+
+- To run command inside the container:
+
+```bash
+docker run -it python-template:latest bash
 ```
 
 ## IDE Setings
