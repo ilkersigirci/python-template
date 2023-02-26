@@ -39,7 +39,7 @@ docker run --rm -it python-template:latest bash
 docker run -it python-template:latest bash
 ```
 
-## IDE Setings
+# IDE Setings
 
 ### Pycharm
 
@@ -70,3 +70,28 @@ Enable all except:
 ### Vscode
 
 - All recommended settings and extensions can be found in `.vscode` directory.
+
+# Useful Makefile commands
+```bash
+# All available commands
+makefile
+makefile help
+
+# Run all tests
+make test
+
+# Run specific tests
+make test-one TEST_MARKER=<TEST_MARKER>
+
+# Remove unnecessary files such as build,test, cache
+make clean
+
+# Run all pre-commit hooks
+make pre-commit
+
+# Lint the project
+make lint
+
+# Profile a file
+make profile PROFILE_FILE_PATH=<PATH_TO_FILE>
+```

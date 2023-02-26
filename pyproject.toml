@@ -70,6 +70,7 @@ pre-commit = "^2.19.0"
 ruff = "0.0.252"
 black = {version = "23.1.0", extras = ["d", "jupyter"]}
 mypy = "^1.0.0"
+scalene = "^1.5.19"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
