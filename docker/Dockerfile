@@ -1,9 +1,9 @@
 # Adapted from:
 # https://github.com/NannyML/nannyml/blob/main/Dockerfile
 
-ARG APP_NAME=template
+ARG APP_NAME=python_template
 ARG APP_PATH=/opt/$APP_NAME
-ARG PYTHON_VERSION=3.10.0-slim-bullseye
+ARG PYTHON_VERSION=3.10-slim-bullseye
 ARG POETRY_VERSION=1.3.2
 
 #
@@ -30,7 +30,7 @@ RUN apt-get update && \
     build-essential
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python
+RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # Import our project files
@@ -80,11 +80,6 @@ ENV \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100
-
-# LightGBM dependency
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
-    libgomp1
 
 # Get build artifact wheel and install it respecting dependency versions
 WORKDIR $APP_PATH
