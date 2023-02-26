@@ -20,7 +20,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 ```bash
 conda create -n python-template python=3.8 -y
 conda activate python-template
-make install
+make -s install
 ```
 
 - After running above command, the project installed in editable mode with all development and test dependencies installed.
@@ -84,20 +84,20 @@ makefile
 makefile help
 
 # Run all tests
-make test
+make -s test
 
 # Run specific tests
-make test-one TEST_MARKER=<TEST_MARKER>
+make -s test-one TEST_MARKER=<TEST_MARKER>
 
 # Remove unnecessary files such as build,test, cache
-make clean
+make -s clean
 
 # Run all pre-commit hooks
-make pre-commit
+make -s pre-commit
 
 # Lint the project
-make lint
+make -s lint
 
 # Profile a file
-make profile PROFILE_FILE_PATH=<PATH_TO_FILE>
+make -s profile PROFILE_FILE_PATH=<PATH_TO_FILE>
 ```
