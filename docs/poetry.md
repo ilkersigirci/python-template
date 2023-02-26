@@ -1,5 +1,31 @@
 - All the documentation can be found [here](https://python-poetry.org/docs/). Below are some of the commands that is  used frequently.
 
+- Install (recommended)
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+- Add `zsh` auto completion
+
+```bash
+
+# Open `~/.zshrc` and add the following lines
+fpath+=~/.zfunc
+autoload -Uz compinit && compinit
+
+source ~/.zshrc
+
+mkdir ~/.zfunc
+poetry completions zsh > ~/.zfunc/_poetry
+exec zsh
+```
+
+- Uninstall
+```
+curl -sSL https://install.python-poetry.org | python3 - --uninstall
+```
+
 -   Update poetry
 
 ```bash

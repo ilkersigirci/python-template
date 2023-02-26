@@ -262,5 +262,11 @@ cython_debug/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm+all,visualstudiocode,python,jupyternotebooks
+
+# Custom ignores
+
 /.ruff_cache/
 public
+
+# Scalene related
+profile.*

@@ -11,9 +11,10 @@ TEST_DIR=./tests
 TEST_MARKER=placeholder
 TEST_OUTPUT_DIR=tests_outputs
 PRECOMMIT_FILE_PATHS=./python_template/__init__.py
+PROFILE_FILE_PATH=./python_template/__init__.py
 PYPI_URLS=
 
-.PHONY: help install test clean build publish doc pre-commit format lint
+.PHONY: help install test clean build publish doc pre-commit format lint profile
 .DEFAULT_GOAL=help
 
 help:
@@ -24,10 +25,10 @@ help:
 update-pip:
 	${PYTHON} -m pip install -U pip
 
-install-poetry: ## Install poetry if it is not already installed
+install-poetry: ## Install poetry if it is not already installed (Installing poetry with official method is recommended)
 	$(MAKE) update-pip
-	! pip show poetry &> /dev/null && pip install poetry==1.3.1
-	poetry config virtualenvs.create false
+	! command -v poetry &> /dev/null && pip install poetry==1.3.2
+	# poetry config virtualenvs.create false
 	# poetry config repositories.private-pypi <PRIVATE_PYPI_URL>
 	# poetry config http-basic.private-pypi ${PYPI_USERNAME} ${PYPI_PASSWORD}
 
@@ -74,7 +75,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install black[d]==23.1.0 ruff==0.0.246
+	pip install black[d]==23.1.0 ruff==0.0.252
 
 install-build:
 	############# PIP ############
@@ -207,3 +208,12 @@ typecheck-no-cache:  ## Checks code with mypy no cache
 
 typecheck-report: ## Checks code with mypy and generates html report
 	${PYTHON} -m mypy --package ${PACKAGE} --html-report mypy_report
+
+profile: ## Profile the file with scalene and shows the report in the terminal
+	${PYTHON} -m scalene --cli --reduced-profile ${PROFILE_FILE_PATH}
+
+profile-gui: ## Profile the file with scalene and shows the report in the browser
+	${PYTHON} -m scalene ${PROFILE_FILE_PATH}
+
+profile-builtin: ## Profile the file with cProfile and shows the report in the terminal
+	${PYTHON} -m cProfile -s tottime ${PROFILE_FILE_PATH}
