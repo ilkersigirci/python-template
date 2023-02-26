@@ -1,5 +1,11 @@
 - All the documentation can be found [here](https://python-poetry.org/docs/). Below are some of the commands that is  used frequently.
 
+- Install (recommended)
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
 -   Update poetry
 
 ```bash

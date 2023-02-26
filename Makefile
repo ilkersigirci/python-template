@@ -25,7 +25,7 @@ help:
 update-pip:
 	${PYTHON} -m pip install -U pip
 
-install-poetry: ## Install poetry if it is not already installed
+install-poetry: ## Install poetry if it is not already installed (Installing poetry with official method is recommended)
 	$(MAKE) update-pip
 	! pip show poetry &> /dev/null && pip install poetry==1.3.2
 	poetry config virtualenvs.create false
