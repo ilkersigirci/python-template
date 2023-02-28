@@ -18,7 +18,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 - Install the project dependencies
 ```bash
-conda create -n python-template python=3.8 -y
+conda create -n python-template python=3.10 -y
 conda activate python-template
 make -s install
 ```
@@ -39,10 +39,10 @@ docker build --tag python-template --file docker/Dockerfile --target production 
 - To run command inside the container:
 
 ```bash
-docker run --rm -it python-template:latest bash
+docker run -it python-template:latest bash
 
 # Temporary container
-docker run -it python-template:latest bash
+docker run --rm -it python-template:latest bash
 ```
 
 # IDE Setings
