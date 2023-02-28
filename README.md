@@ -15,6 +15,9 @@
 - Install poetry
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
+
+# Add it to your shell path (example for zsh)
+echo 'export PATH="$HOME/.poetry/bin:$PATH"' >> ~/.zshrc
 ```
 
 - Install the project dependencies
