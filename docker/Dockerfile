@@ -4,7 +4,7 @@
 ARG APP_NAME=python_template
 ARG APP_PATH=/opt/$APP_NAME
 ARG PYTHON_VERSION=3.10-slim-bullseye
-ARG POETRY_VERSION=1.3.2
+ARG POETRY_VERSION=1.4.0
 
 #
 # Stage: staging
@@ -52,7 +52,6 @@ WORKDIR $APP_PATH
 RUN poetry install
 
 ENTRYPOINT ["poetry", "run"]
-# CMD ["nml"]
 
 #
 # Stage: build

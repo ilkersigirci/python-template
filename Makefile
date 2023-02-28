@@ -13,8 +13,10 @@ TEST_OUTPUT_DIR=tests_outputs
 PRECOMMIT_FILE_PATHS=./python_template/__init__.py
 PROFILE_FILE_PATH=./python_template/__init__.py
 PYPI_URLS=
+DOCKER_IMAGE=python-template
+DOCKER_TARGET=development
 
-.PHONY: help install test clean build publish doc pre-commit format lint profile
+.PHONY: help install test clean build publish doc pre-commit format lint profile docker
 .DEFAULT_GOAL=help
 
 help:
@@ -27,7 +29,7 @@ update-pip:
 
 install-poetry: ## Install poetry if it is not already installed (Installing poetry with official method is recommended)
 	$(MAKE) update-pip
-	! command -v poetry &> /dev/null && pip install poetry==1.3.2
+	! command -v poetry &> /dev/null && pip install poetry==1.4.0
 	# poetry config virtualenvs.create false
 	# poetry config repositories.private-pypi <PRIVATE_PYPI_URL>
 	# poetry config http-basic.private-pypi ${PYPI_USERNAME} ${PYPI_PASSWORD}
@@ -177,7 +179,7 @@ doc-github: ## Build documentation with mkdocs and deploy to github pages
 	mkdocs gh-deploy --force
 
 doc-dev: ## Show documentation preview with mkdocs
-	mkdocs serve -w ${PACKAGE}
+	mkdocs serve -w src/${PACKAGE}
 
 pre-commit-one: ## Run pre-commit with specific files
 	pre-commit run --files ${PRECOMMIT_FILE_PATHS}
@@ -189,25 +191,25 @@ pre-commit-clean: ## Clean pre-commit cache
 	pre-commit clean
 
 lint: ## Lint code with black, ruff
-	${PYTHON} -m black ${PACKAGE} --check --diff
-	${PYTHON} -m ruff ${PACKAGE}
+	${PYTHON} -m black src/${PACKAGE} --check --diff
+	${PYTHON} -m ruff src/${PACKAGE}
 
 lint-report: ## Lint report for gitlab
-	${PYTHON} -m black ${PACKAGE} --check --diff
-	${PYTHON} -m ruff ${PACKAGE} --format gitlab > gl-code-quality-report.json
+	${PYTHON} -m black src/${PACKAGE} --check --diff
+	${PYTHON} -m ruff src/${PACKAGE} --format gitlab > gl-code-quality-report.json
 
 format: ## Run black, ruff for all package files. CHANGES CODE
-	${PYTHON} -m black ${PACKAGE}
-	${PYTHON} -m ruff ${PACKAGE} --fix --show-fixes
+	${PYTHON} -m black src/${PACKAGE}
+	${PYTHON} -m ruff src/${PACKAGE} --fix --show-fixes
 
 typecheck:  ## Checks code with mypy
-	${PYTHON} -m mypy --package ${PACKAGE}
+	MYPYPATH=src ${PYTHON} -m mypy --package ${PACKAGE}
 
 typecheck-no-cache:  ## Checks code with mypy no cache
-	${PYTHON} -m mypy --package ${PACKAGE} --no-incremental
+	MYPYPATH=src ${PYTHON} -m mypy --package ${PACKAGE} --no-incremental
 
 typecheck-report: ## Checks code with mypy and generates html report
-	${PYTHON} -m mypy --package ${PACKAGE} --html-report mypy_report
+	MYPYPATH=src ${PYTHON} -m mypy --package ${PACKAGE} --html-report mypy_report
 
 profile: ## Profile the file with scalene and shows the report in the terminal
 	${PYTHON} -m scalene --cli --reduced-profile ${PROFILE_FILE_PATH}
@@ -217,3 +219,6 @@ profile-gui: ## Profile the file with scalene and shows the report in the browse
 
 profile-builtin: ## Profile the file with cProfile and shows the report in the terminal
 	${PYTHON} -m cProfile -s tottime ${PROFILE_FILE_PATH}
+
+docker: ## Build docker image
+	docker build --tag ${DOCKER_IMAGE} --file docker/Dockerfile --target ${DOCKER_TARGET} .

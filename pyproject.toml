@@ -4,6 +4,10 @@ version = "0.0.0"
 description = "Python Template"
 readme = "README.md"
 
+packages = [
+    { include = "python_template", from = "src" },
+]
+
 authors = [
     "template <template@github.com>",
 ]
@@ -73,7 +77,8 @@ mypy = "^1.0.0"
 scalene = "^1.5.19"
 
 [tool.pytest.ini_options]
-minversion = "6.0"
+# pythonpath = ["src"]
+minversion = "7.0.0"
 addopts = [
     "--import-mode=importlib",
     "--color=yes",

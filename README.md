@@ -6,6 +6,7 @@
 - The pyproject.toml file is supposed to solve the build-tool dependency chicken and egg problem since pip itself can read pyproject.yoml along with the version of setuptools or wheel the project requires.
 - The pyproject.toml file was introduced in PEP-518 (2016) as a way of separating configuration of the build system from a specific, optional library (setuptools) and also enabling setuptools to install itself without already being installed. Subsequently PEP-621 (2020) introduces the idea that the pyproject.toml file be used for wider project configuration and PEP-660 (2021) proposes finally doing away with the need for setup.py for editable installation using pip.
 - It uses [entry points](https://setuptools.pypa.io/en/latest/userguide/entry_point.html)
+- It uses `src` layout, which is the recommended layout for python projects to avoid common [pitfalls](https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure).
 
 # Install
 
@@ -14,11 +15,14 @@
 - Install poetry
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
+
+# Add it to your shell path (example for zsh)
+echo 'export PATH="$HOME/.poetry/bin:$PATH"' >> ~/.zshrc
 ```
 
 - Install the project dependencies
 ```bash
-conda create -n python-template python=3.8 -y
+conda create -n python-template python=3.10 -y
 conda activate python-template
 make -s install
 ```
@@ -39,10 +43,10 @@ docker build --tag python-template --file docker/Dockerfile --target production 
 - To run command inside the container:
 
 ```bash
-docker run --rm -it python-template:latest bash
+docker run -it python-template:latest bash
 
 # Temporary container
-docker run -it python-template:latest bash
+docker run --rm -it python-template:latest bash
 ```
 
 # IDE Setings
