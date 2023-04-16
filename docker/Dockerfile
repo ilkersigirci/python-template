@@ -22,7 +22,8 @@ ENV \
     POETRY_VERSION=$POETRY_VERSION \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1
+    POETRY_NO_INTERACTION=1 \
+    POETRY_INSTALLER_MAX_WORKERS=10
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -36,6 +37,7 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 # Import our project files
 WORKDIR $APP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
+RUN poetry install --no-root
 COPY . .
 
 #
