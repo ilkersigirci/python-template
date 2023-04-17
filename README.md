@@ -18,7 +18,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 - Install the project dependencies
 ```bash
-conda create -n python-template python=3.8 -y
+conda create -n python-template python=3.10 -y
 conda activate python-template
 make -s install
 ```

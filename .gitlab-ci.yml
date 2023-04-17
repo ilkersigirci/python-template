@@ -4,7 +4,7 @@ stages:
   - package
   - doc
 
-image: python:3.8
+image: python:3.10
 
 lint:
   stage: lint
