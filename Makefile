@@ -5,7 +5,7 @@ SHELL=/bin/bash
 ROOT_DIR=python-template
 PACKAGE=python_template
 PYTHON = python
-PYTHON_VERSION=3.8
+PYTHON_VERSION=3.10
 DOC_DIR=./docs
 TEST_DIR=./tests
 TEST_MARKER=placeholder
@@ -22,12 +22,22 @@ help:
 		 awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m\
 		 %s\n", $$1, $$2}'
 
+# If .env file exists, include it and export its variables
+ifeq ($(shell test -f .env && echo 1),1)
+    include .env
+    export
+endif
+
+python-info: ## List information about the python environment
+	@which ${PYTHON}
+	@${PYTHON} --version
+
 update-pip:
 	${PYTHON} -m pip install -U pip
 
 install-poetry: ## Install poetry if it is not already installed (Installing poetry with official method is recommended)
 	$(MAKE) update-pip
-	! command -v poetry &> /dev/null && pip install poetry==1.3.2
+	! command -v poetry &> /dev/null && pip install poetry==1.4.2
 	# poetry config virtualenvs.create false
 	# poetry config repositories.private-pypi <PRIVATE_PYPI_URL>
 	# poetry config http-basic.private-pypi ${PYPI_USERNAME} ${PYPI_PASSWORD}
@@ -75,7 +85,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install black[d]==23.1.0 ruff==0.0.252
+	pip install black[d]==23.1.0 ruff==0.0.262
 
 install-build:
 	############# PIP ############

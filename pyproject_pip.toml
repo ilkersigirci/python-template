@@ -58,7 +58,7 @@ doc = [
 
 dev = [
     "black[d]==23.1.0",
-    "ruff==0.0.252",
+    "ruff==0.0.262",
     "pre-commit",
     "mypy",
     # "build", # NOTE: Uncomment if using pip instead of poetry.

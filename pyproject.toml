@@ -67,7 +67,7 @@ mkdocstrings = {version = "^0.20.0", extras = ["python"]}
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^2.19.0"
-ruff = "0.0.252"
+ruff = "0.0.262"
 black = {version = "23.1.0", extras = ["d", "jupyter"]}
 mypy = "^1.0.0"
 scalene = "^1.5.19"
@@ -113,22 +113,23 @@ target-version = "py38"
 # required-version = "0.0.238"
 line-length = 88
 select = [
+    "B",  # flake8-bugbear
+    "C",  # flake8-comprehensions
+    "C9",  # mccabe
+    "D",  # flake8-docstrings
     "E",  # pycodestyle errors (default)
     "F",  # pyflakes (default)
-    "W",  # pycodestyle warnings
-    "I001",  # isort
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
+    "I",  # isort
+    "PD", # pandas-vet
+    "PIE", # pie
+    "PL",  # pylint
+    "PTH", # pathlib
     "Q",  # flake8-quotes
-    "D",  # flake8-docstrings
-    "T",  # (disallow print statements) keep debugging statements out of the codebase
+    "RET", # return
     "RUF", # Enable all ruff-specific checks
-    # (pylint) use all pylint rules (ruff currently implements only a subset of
-    # pylint's rules)
-    "PLC",
-    "PLE",
-    "PLR",
-    "PLW",
+    "SIM", # simplify
+    "T20",  # (disallow print statements) keep debugging statements out of the codebase
+    "W",  # pycodestyle warnings
 ]
 #extend-select = []
 respect-gitignore = true
@@ -140,8 +141,6 @@ ignore-init-module-imports = true
 # ignore = []
 extend-ignore = [
     "E501",  # Line too long, handled by black
-    # "B008",  # Do not perform function calls in argument defaults
-    # "C901",  # Too complex
     "D107", # "Missing docstring in __init__",
 ]
 extend-exclude = [

@@ -1,0 +1,6 @@
+# rtx settings set experimental true
+[tools]
+# poetry = {version='latest', pyproject='pyproject.toml'}
+poetry = '1.4.2'
+# python = '3.10'
+python = {version = "3.10", virtualenv = ".venv"} # must be after poetry so the poetry bin is first in PATH
