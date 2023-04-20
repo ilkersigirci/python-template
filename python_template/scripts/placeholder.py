@@ -6,4 +6,4 @@ def placeholder_script():
 
     More detail: https://setuptools.pypa.io/en/latest/userguide/entry_point.html
     """
-    print("This is a placeholder script that can be run as `entry point`")
+    print("This is a placeholder script that can be run as `entry point`")  # noqa: T201
