@@ -9,7 +9,7 @@
     "njpwerner.autodocstring",
     "charliermarsh.ruff",
     "ms-python.black-formatter",
-    // "matangover.mypy",
+    // "ms-python.mypy-type-checker",
   ],
   "unwantedRecommendations": [
     "ms-python.isort"

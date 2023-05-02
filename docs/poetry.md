@@ -44,8 +44,7 @@ poetry add <package>
 ```bash
 poetry add black==23.1.0
 
-# With extras (NOTE: Doesn't WORK on private pypi currently)
-poetry add "black[d,jupyter]==23.1.0"
+poetry add "black[d,jupyter]=23.1.0"
 ```
 
 -   Add package from git
