@@ -2,7 +2,9 @@
 name = "python_template"
 version = "0.0.0"
 description = "Python Template"
-requires-python = ">=3.8,<3.12"
+
+# NOTE: Overwrites .python-version
+# requires-python = ">=3.9,<3.12"
 
 authors = [
     {name = "template", email = "template@github.com"},
@@ -27,7 +29,6 @@ classifiers = [
     "Operating System :: POSIX",
     "Operating System :: Unix",
     "Operating System :: MacOS",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -42,7 +43,6 @@ dev-dependencies = [
     "black[d]==23.1.0",
     "ruff==0.0.270",
     "mypy",
-    "build",  # TODO: How to do this with hatchling?
     "scalene~=1.5.21.2",
     ## DOCS
     "mkdocs",
@@ -58,14 +58,15 @@ dev-dependencies = [
     # "pytest-timeout",
 ]
 
+[[tool.rye.sources]]
+name = "default"
+url = "https://pypi.org/simple/"
+
 [tool.rye.scripts]
 placeholder = "python_template.scripts.placeholder:placeholder_script"
 
-[tool.hatch.metadata]
-allow-direct-references = true
-
 [tool.pytest.ini_options]
-minversion = "6.0"
+minversion = "7.0.0"
 addopts = [
     "--import-mode=importlib",
     "--color=yes",
@@ -101,7 +102,7 @@ extra-exclude = '''
 '''
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"
 # required-version = "0.0.238"
 line-length = 88
 select = [
@@ -170,7 +171,7 @@ combine-as-imports = true
 # Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
 [tool.mypy]
 # python_version = "3.8"
-files = ["python_template"]
+files = ["src/python_template"]
 # exclude = ['^tests/']
 strict = true
 show_error_codes = true
@@ -178,12 +179,12 @@ show_error_codes = true
 
 # TODO: Check whether this is working
 [[tool.mypy.overrides]]
-module = "python_template.tests.*"
+module = "tests.*"
 ignore_missing_imports = true
 check_untyped_defs = true
 
 [tool.coverage.run]
-source = ['python_template']
+source = ['src/python_template']
 branch = true
 context = '${CONTEXT}'
 
@@ -199,8 +200,11 @@ exclude_lines = [
 
 # [tool.coverage.paths]
 # source = [
-#     'python_template/',
+#     'src/python_template/',
 # ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [build-system]
 requires = ["hatchling"]

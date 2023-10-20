@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  python-template-dev:
+    image: python-template-dev:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: development
+    # ports:
+    #   - 8080:8080
+  python-template-prod:
+    image: python-template-prod:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: production
+    # ports:
+    #   - 8080:8080

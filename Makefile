@@ -3,7 +3,7 @@
 .ONESHELL:
 SHELL=/bin/bash
 ROOT_DIR=python-template
-PACKAGE=python_template
+PACKAGE=src/python_template
 PYTHON = python
 PYTHON_VERSION=3.10
 DOC_DIR=./docs
@@ -12,6 +12,8 @@ TEST_MARKER=placeholder
 TEST_OUTPUT_DIR=tests_outputs
 PRECOMMIT_FILE_PATHS=./python_template/__init__.py
 PROFILE_FILE_PATH=./python_template/__init__.py
+DOCKER_IMAGE=python-template
+DOCKER_TARGET=development
 
 # TODO: add source for rye
 PYPI_URLS=
@@ -41,18 +43,17 @@ install-rye:
 	! command -v rye &> /dev/null && curl -sSf https://rye-up.com/get | bash
 
 install-base: ## Installs only package dependencies
-	rye sync --no-dev
+	rye sync --no-dev --no-lock
 
-install: ## Installs the development and test version of the package
-	rye sync
+install: ## Installs the development version of the package
+	rye sync --no-lock
 	$(MAKE) install-precommit
 
 # # FIXME: Currently not supported by rye
-# install-no-cache: ## Installs the development and test version of the package
+# install-no-cache: ## Installs the development version of the package
 
 # FIXME: Currently not supported by rye
-install-test: ## Install only test version of the package
-	rye sync
+# install-test: ## Install only test version of the package
 
 install-precommit: ## Install pre-commit hooks
 	pre-commit install
@@ -60,15 +61,16 @@ install-precommit: ## Install pre-commit hooks
 install-lint:
 	pip install black[d]==23.1.0 ruff==0.0.270
 
-# TODO: Change this with hatchling
-# install-build:
-# 	pip install build
-
-install-publish:
-	pip install twine
-
 install-doc:
 	pip install mkdocs mkdocs-material mkdocstrings[python]
+
+update-dependencies: ## Updates the lockfiles and installs dependencies. Dependencies are updated if necessary
+	rye sync
+	# Updates the lockfiles without installing dependencies
+	# rye lock
+
+upgrade-dependencies: ## Updates the lockfiles and installs the latest version of the dependencies
+	rye sync --update-all
 
 test-one: ## Run specific tests with TEST_MARKER=<test_name>, default marker is `placeholder`
 	${PYTHON} -m pytest -m ${TEST_MARKER}
@@ -98,14 +100,11 @@ test: clean-test test-all ## Cleans and runs all tests
 test-parallel: clean-test test-all-parallel ## Cleans and runs all tests with parallelization
 
 clean-build: ## Clean build dist and egg directories left after install
-	rm -rf ./dist
-	rm -rf ./build
+	rm -rf ./build ./dist */*.egg-info *.egg-info
 	rm -rf ./pytest_cache
 	rm -rf ./junit
-	rm -rf ./$(PACKAGE).egg-info
 	find . -type f -iname "*.so" -delete
 	find . -type f -iname '*.pyc' -delete
-	# find . -type d -name '$(PACKAGE).egg-info' -empty -delete
 	find . -type d -name '*.egg-info' -prune -exec rm -rf {} \;
 	find . -type d -name '__pycache__' -prune -exec rm -rf {} \;
 	find . -type d -name '.ruff_cache' -prune -exec rm -rf {} \;
@@ -122,18 +121,22 @@ clean-test: ## Clean test related files left after test
 
 clean: clean-build clean-test ## Cleans build and test related files
 
-# TODO: Do this with hatchling
 build: ## Make Python source distribution
-	# ${PYTHON} -m build --sdist --outdir dist
+	$(MAKE) clean-build
+	rye build --sdist --out dist
 
-# TODO: Do this with hatchling
+	# NOTE: Below will fail if there is no dist folder
+	# See: https://github.com/mitsuhiko/rye/issues/475
+	# rye build --clean --sdist --out dist
+
 build-wheel: ## Make Python wheel distribution
-	# ${PYTHON} -m build --wheel --outdir dist
+	$(MAKE) clean-build
+	rye build --wheel --out dist
 
-# TODO: Implement this
 publish: ## Builds the project and publish the package to Pypi
-	$(MAKE) build
-	# twine upload dist/* --verbose --config-file .pypirc
+	# $(MAKE) build
+	rye publish dist/*
+	# rye publish --repository-url https://test.pypi.org/legacy/ dist/*
 
 doc: ## Build documentation with mkdocs
 	mkdocs build
@@ -167,6 +170,7 @@ format: ## Run black, ruff for all package files. CHANGES CODE
 
 typecheck:  ## Checks code with mypy
 	${PYTHON} -m mypy --package ${PACKAGE}
+	# MYPYPATH=src ${PYTHON} -m mypy --package ${PACKAGE}
 
 typecheck-no-cache:  ## Checks code with mypy no cache
 	${PYTHON} -m mypy --package ${PACKAGE} --no-incremental
@@ -182,3 +186,6 @@ profile-gui: ## Profile the file with scalene and shows the report in the browse
 
 profile-builtin: ## Profile the file with cProfile and shows the report in the terminal
 	${PYTHON} -m cProfile -s tottime ${PROFILE_FILE_PATH}
+
+docker-build: ## Build docker image
+	docker build --tag ${DOCKER_IMAGE} --file docker/Dockerfile --target ${DOCKER_TARGET} .
