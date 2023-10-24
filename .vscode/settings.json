@@ -1,8 +1,7 @@
 {
   "[python]": {
     "editor.formatOnSave": true,
-    // "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
       // "source.fixAll": true,
       "source.organizeImports.ruff": true,
@@ -16,10 +15,6 @@
   },
   "python.languageServer": "Pylance",
   // "python.analysis.autoImportCompletions": true,
-  "python.linting.enabled": true,
-  "python.linting.mypyEnabled": false,
-  "mypy.runUsingActiveInterpreter": true,
-  // "python.formatting.provider": "black",
   "autoDocstring.generateDocstringOnEnter": true,
   "autoDocstring.docstringFormat": "google",
   "autoDocstring.customTemplatePath": "docs/templates/google-notypes.mustache",

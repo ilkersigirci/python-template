@@ -59,7 +59,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install black[d]==23.1.0 ruff==0.0.270
+	pip install ruff==0.1.2
 
 install-doc:
 	pip install mkdocs mkdocs-material mkdocstrings[python]
@@ -156,16 +156,16 @@ pre-commit: ## Run pre-commit for all package files
 pre-commit-clean: ## Clean pre-commit cache
 	pre-commit clean
 
-lint: ## Lint code with black, ruff
-	${PYTHON} -m black ${PACKAGE} --check --diff
+lint: ## Lint code with ruff
+	${PYTHON} -m ruff format ${PACKAGE} --check --diff
 	${PYTHON} -m ruff ${PACKAGE}
 
 lint-report: ## Lint report for gitlab
-	${PYTHON} -m black ${PACKAGE} --check --diff
+	${PYTHON} -m ruff format ${PACKAGE} --check --diff
 	${PYTHON} -m ruff ${PACKAGE} --format gitlab > gl-code-quality-report.json
 
-format: ## Run black, ruff for all package files. CHANGES CODE
-	${PYTHON} -m black ${PACKAGE}
+format: ## Run ruff for all package files. CHANGES CODE
+	${PYTHON} -m ruff format ${PACKAGE}
 	${PYTHON} -m ruff ${PACKAGE} --fix --show-fixes
 
 typecheck:  ## Checks code with mypy

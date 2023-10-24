@@ -76,7 +76,6 @@ Enable all except:
 #### Plugins
 
 - Ruff
-- BlackConnect
 - Pydantic
 
 ### Vscode

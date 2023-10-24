@@ -40,8 +40,7 @@ dependencies = []
 managed = true
 dev-dependencies = [
     "pre-commit",
-    "black[d]==23.1.0",
-    "ruff==0.0.270",
+    "ruff==0.1.2",
     "mypy",
     "scalene~=1.5.21.2",
     ## DOCS
@@ -88,22 +87,9 @@ log_cli_level = "INFO"
 log_cli_format = "%(asctime)-20s :: %(name)-8s :: %(levelname)-8s :: %(filename)s:%(lineno)d - (%(funcName)s) :: %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
-
-[tool.black]
-# required-version = "23.1.0"
-line-length = 88
-color = true
-# skip-string-normalization = true
-extra-exclude = '''
-/(
-    \.git
-  | _build
-)/
-'''
-
 [tool.ruff]
 target-version = "py310"
-# required-version = "0.0.238"
+# required-version = "0.1.2"
 line-length = 88
 select = [
     "B",  # flake8-bugbear
@@ -133,7 +119,7 @@ unfixable = [
 ignore-init-module-imports = true
 # ignore = []
 extend-ignore = [
-    "E501",  # Line too long, handled by black
+    "E501",  # Line too long, handled by ruff formatter
     "D107", # "Missing docstring in __init__",
 ]
 extend-exclude = [
@@ -151,6 +137,11 @@ extend-exclude = [
 # inline-quotes = "single"
 # multiline-quotes = "double"
 # docstring-quotes = "double"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = false
+# indent-style = "space"
+# preview = true
 
 [tool.ruff.flake8-import-conventions.extend-aliases]
 some_alias = ""

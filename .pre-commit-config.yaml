@@ -35,17 +35,8 @@ repos:
       - id: python-no-eval
       - id: python-use-type-annotations
 
-  - repo: https://github.com/psf/black
-    # rev: 23.1.0
-    # The `refs/tags/<tag>:refs/tags/<tag>` is needed for black's required-version to work:
-    # https://github.com/psf/black/issues/2493#issuecomment-1081987650
-    rev: refs/tags/23.1.0:refs/tags/23.1.0
-    hooks:
-      - id: black
-        args: ["--config=pyproject.toml"]
-
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.270
+    rev: v0.1.2
     hooks:
       - id: ruff
 
