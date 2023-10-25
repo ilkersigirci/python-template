@@ -38,7 +38,10 @@ repos:
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.1.2
     hooks:
+      # Run the Ruff linter.
       - id: ruff
+      # Run the Ruff formatter.
+      - id: ruff-format
 
   # NOTE: It doesn't use pyproject.toml configs. We might enable it the future.
   # - repo: https://github.com/pre-commit/mirrors-mypy

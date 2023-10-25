@@ -91,6 +91,7 @@ log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 target-version = "py310"
 # required-version = "0.1.2"
 line-length = 88
+src = ["src"]
 select = [
     "B",  # flake8-bugbear
     "C",  # flake8-comprehensions
