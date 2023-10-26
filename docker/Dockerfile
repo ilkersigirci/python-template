@@ -11,8 +11,8 @@ ENV \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1
 
-# TODO: Is this necessary ?
-ENV PYTHONPATH="/workspace/src/$APP_NAME:$PYTHONPATH"
+# TODO: Is this important ?
+# ENV PYTHONPATH="/workspace/src/$APP_NAME:$PYTHONPATH"
 
 # The virtual environment is created in the working directory where rye is run
 # so the development and production environments must be in the same directory respectively.
