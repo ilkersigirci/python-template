@@ -1,15 +1,18 @@
-[tool.poetry]
+[project]
 name = "python_template"
 version = "0.0.0"
 description = "Python Template"
-readme = "README.md"
+
+# NOTE: Overwrites .python-version
+# requires-python = ">=3.9,<3.12"
 
 authors = [
-    "template <template@github.com>",
+    {name = "template", email = "template@github.com"},
 ]
 maintainers = [
-    "template <template@github.com>",
+    {name = "template", email = "template@github.com"},
 ]
+readme = "README.md"
 
 keywords = [
     "template"
@@ -26,54 +29,43 @@ classifiers = [
     "Operating System :: POSIX",
     "Operating System :: Unix",
     "Operating System :: MacOS",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
 
-[tool.poetry.urls]
-repository = "https://github.com/ilkersigirci/python-template"
+dependencies = []
 
-[tool.poetry.build]
-generate-setup-file = false
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pre-commit",
+    "ruff==0.1.3",
+    "mypy",
+    "scalene~=1.5.21.2",
+    ## DOCS
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    # "mdx-include",
+    # "mkdocs-markdownextradata-plugin",
+    ## TEST
+    "pytest",
+    "pytest-cov",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+    # "pytest-timeout",
+]
 
-[tool.poetry.scripts]
+[[tool.rye.sources]]
+name = "default"
+url = "https://pypi.org/simple/"
+
+[tool.rye.scripts]
 placeholder = "python_template.scripts.placeholder:placeholder_script"
 
-## poetry source add --secondary private-pypi http://private-pypi/simple/
-# [[tool.poetry.source]]
-# name = "private-pypi"
-# url = "http://private-pypi/simple/" # NOTE: /simple/ is important
-# default = false
-# secondary = true
-
-[tool.poetry.dependencies]
-python = ">=3.8,<3.12"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
-pytest-rerunfailures = "^10.2"
-pytest-xdist = {version = "^3.0.0", extras = ["psutil"]}
-#pytest-timeout = ""
-
-[tool.poetry.group.doc.dependencies]
-mkdocs = "^1.4.2"
-mkdocs-material = "^9.0.12"
-mkdocstrings = {version = "^0.20.0", extras = ["python"]}
-# mdx-include = "^1.4.2"
-# mkdocs-markdownextradata-plugin = "^0.2.5"
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^2.19.0"
-ruff = "0.0.262"
-black = {version = "23.1.0", extras = ["d", "jupyter"]}
-mypy = "^1.0.0"
-scalene = "^1.5.19"
-
 [tool.pytest.ini_options]
-minversion = "6.0"
+minversion = "7.0.0"
 addopts = [
     "--import-mode=importlib",
     "--color=yes",
@@ -95,23 +87,11 @@ log_cli_level = "INFO"
 log_cli_format = "%(asctime)-20s :: %(name)-8s :: %(levelname)-8s :: %(filename)s:%(lineno)d - (%(funcName)s) :: %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
-
-[tool.black]
-# required-version = "23.1.0"
-line-length = 88
-color = true
-# skip-string-normalization = true
-extra-exclude = '''
-/(
-    \.git
-  | _build
-)/
-'''
-
 [tool.ruff]
-target-version = "py38"
-# required-version = "0.0.238"
+target-version = "py310"
+# required-version = "0.1.3"
 line-length = 88
+src = ["src"]
 select = [
     "B",  # flake8-bugbear
     "C",  # flake8-comprehensions
@@ -140,7 +120,7 @@ unfixable = [
 ignore-init-module-imports = true
 # ignore = []
 extend-ignore = [
-    "E501",  # Line too long, handled by black
+    "E501",  # Line too long, handled by ruff formatter
     "D107", # "Missing docstring in __init__",
 ]
 extend-exclude = [
@@ -158,6 +138,11 @@ extend-exclude = [
 # inline-quotes = "single"
 # multiline-quotes = "double"
 # docstring-quotes = "double"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = false
+# indent-style = "space"
+# preview = true
 
 [tool.ruff.flake8-import-conventions.extend-aliases]
 some_alias = ""
@@ -178,7 +163,7 @@ combine-as-imports = true
 # Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
 [tool.mypy]
 # python_version = "3.8"
-files = ["python_template"]
+files = ["src/python_template"]
 # exclude = ['^tests/']
 strict = true
 show_error_codes = true
@@ -186,12 +171,12 @@ show_error_codes = true
 
 # TODO: Check whether this is working
 [[tool.mypy.overrides]]
-module = "python_template.tests.*"
+module = "tests.*"
 ignore_missing_imports = true
 check_untyped_defs = true
 
 [tool.coverage.run]
-source = ['python_template']
+source = ['src/python_template']
 branch = true
 context = '${CONTEXT}'
 
@@ -207,18 +192,12 @@ exclude_lines = [
 
 # [tool.coverage.paths]
 # source = [
-#     'python_template/',
+#     'src/python_template/',
 # ]
 
-######### Local poetry.toml example ##############
-# [virtualenvs]
-# create = false
-
-# [repositories]
-# [repositories.private-pypi]
-# url = "http://private-pypi/"
-##################################################
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [build-system]
-requires = ["poetry-core==1.5.1"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
