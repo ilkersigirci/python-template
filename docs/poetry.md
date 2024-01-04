@@ -43,7 +43,7 @@ poetry add <package>
 - Add package with specific version constraint
 
 ```bash
-poetry add ruff==0.1.7
+poetry add ruff==0.1.11
 ```
 
 - Add package from git

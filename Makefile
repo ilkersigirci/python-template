@@ -5,7 +5,7 @@ SHELL=/bin/bash
 ROOT_DIR=python-template
 PACKAGE=src/python_template
 PYTHON = python
-PYTHON_VERSION=3.10
+PYTHON_VERSION=3.11
 DOC_DIR=./docs
 TEST_DIR=./tests
 TEST_MARKER=placeholder
@@ -59,7 +59,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install ruff==0.1.7
+	pip install ruff==0.1.11
 
 install-doc:
 	pip install mkdocs mkdocs-material mkdocstrings[python]

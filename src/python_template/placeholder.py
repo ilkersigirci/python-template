@@ -22,10 +22,8 @@ The module contains the following functions:
 - `divide(a, b)` - Returns the quotient of two numbers.
 """
 
-from typing import Union
 
-
-def add(a: Union[float, int], b: Union[float, int]) -> float:
+def add(a: float | int, b: float | int) -> float:
     """Compute and return the sum of two numbers.
 
     Examples:
@@ -44,7 +42,7 @@ def add(a: Union[float, int], b: Union[float, int]) -> float:
     return float(a + b)
 
 
-def subtract(a: Union[float, int], b: Union[float, int]) -> float:
+def subtract(a: float | int, b: float | int) -> float:
     """Compute and return the substaction of two numbers.
 
     Examples:
@@ -63,7 +61,7 @@ def subtract(a: Union[float, int], b: Union[float, int]) -> float:
     return float(a - b)
 
 
-def multiply(a: Union[float, int], b: Union[float, int]) -> float:
+def multiply(a: float | int, b: float | int) -> float:
     """Compute and return the multiplication of two numbers.
 
     Examples:
@@ -82,7 +80,7 @@ def multiply(a: Union[float, int], b: Union[float, int]) -> float:
     return float(a * b)
 
 
-def divide(a: Union[float, int], b: Union[float, int]) -> float:
+def divide(a: float | int, b: float | int) -> float:
     """Compute and return the division of two numbers.
 
     Examples:
