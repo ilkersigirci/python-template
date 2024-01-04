@@ -10,28 +10,32 @@ on:
 
 jobs:
   test:
-    strategy:
-      matrix:
-        python-version: ['3.11', '3.12']
-        # os: [ubuntu-20.04, ubuntu-22.04]
+    # strategy:
+    #   matrix:
+    #     python-version: ['3.11', '3.12']
+    #     # os: [ubuntu-20.04, ubuntu-22.04]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      # - name: Set up Python ${{ matrix.python-version }}
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: ${{ matrix.python-version }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Disable Logger Outputs
+        run: |
+          sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
+      # - name: Pip Update
+      #   run: |
+      #     rye run python -m pip install -U pip
       - name: Install the latest version of rye
         uses: eifinger/setup-rye@v1
         with:
           enable-cache: true
           cache-prefix: 'rye-venv-cache'
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Disable Logger Outputs
-        run: |
-          sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
-      - name: Pip Update
-        run: |
-          rye run python -m pip install -U pip
       - name: Install the Project with Test Dependencies
         run: |
           rye sync --no-lock
