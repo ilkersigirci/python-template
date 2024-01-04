@@ -17,6 +17,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+        with:
+          enable-cache: true
+          cache-prefix: 'rye-venv-cache'
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

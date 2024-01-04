@@ -46,6 +46,7 @@ install-base: ## Installs only package dependencies
 	rye sync --no-dev --no-lock
 
 install: ## Installs the development version of the package
+	$(MAKE) install-rye
 	rye sync --no-lock
 	$(MAKE) install-precommit
 
