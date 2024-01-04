@@ -3,8 +3,8 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
-      // "source.fixAll": true,
-      "source.organizeImports.ruff": true,
+      // "source.fixAll": "always",
+      "source.organizeImports.ruff": "explicit",
     },
     "editor.rulers": [
       {
@@ -22,4 +22,10 @@
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   // "python.testing.pytestArgs": [],
+  "notebook.formatOnSave.enabled": true,
+  "notebook.codeActionsOnSave": {
+    // "source.fixAll.ruff": "always",
+    "source.organizeImports.ruff": "explicit",
+  },
+  "evenBetterToml.formatter.reorderKeys": true,
 }

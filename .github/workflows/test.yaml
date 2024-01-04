@@ -9,30 +9,49 @@ on:
       - main
 
 jobs:
-  test:
+  # test:
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Disable Logger Outputs
+  #       run: |
+  #         sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
+  #     - name: Install the latest version of rye
+  #       uses: eifinger/setup-rye@v1
+  #       with:
+  #         enable-cache: true
+  #         cache-prefix: 'rye-venv-cache'
+  #     - name: Install the Project with Test Dependencies
+  #       run: |
+  #         rye sync --no-lock
+  #     - name: Test the Project
+  #       run: |
+  #         python -m pytest -n auto
+
+  test_matrix:
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11']
-        # os: [ubuntu-20.04, ubuntu-22.04]
-    runs-on: ubuntu-22.04
+        python-version: ['3.11', '3.12']
+        os: [ubuntu-22.04] # windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
       - name: Disable Logger Outputs
         run: |
           sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
-      - name: Pip Update
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+        with:
+          enable-cache: true
+          cache-prefix: 'rye-venv-cache'
+      - name: Pin Python Version - ${{ matrix.python-version }}
         run: |
-          make -s update-pip
+          rye pin ${{ matrix.python-version }}
       - name: Install the Project with Test Dependencies
         run: |
-          make -s install-test
-      # - name: Show dependencies
-      #   run: python -m pip list
+          rye sync --no-lock
       - name: Test the Project
-        run: make -s test-parallel
+        run: |
+          python -m pytest -n auto
       # - name: Publish code coverage
       #   uses: codecov/codecov-action@v3

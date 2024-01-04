@@ -4,7 +4,7 @@ stages:
   - package
   - doc
 
-image: python:3.10
+image: python:3.11
 
 lint:
   stage: lint
@@ -26,7 +26,7 @@ tests:
     echo "*********** Pip Update ***********"
     make -s update-pip
     echo "*********** Install the Project with Test Dependencies ***********"
-    make -s install-test
+    make -s install
     echo "*********** Test the Project ***********"
     make -s test-parallel
   only:

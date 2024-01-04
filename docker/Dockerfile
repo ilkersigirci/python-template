@@ -1,4 +1,4 @@
-ARG PYTHON_BASE_IMAGE=3.10-slim-bookworm
+ARG PYTHON_BASE_IMAGE=3.11-slim-bookworm
 ARG APP_NAME=python_template
 
 #

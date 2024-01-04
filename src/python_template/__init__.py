@@ -1,5 +1,5 @@
 """Python template package."""
-import pkg_resources  # type: ignore
+from importlib.metadata import version
 
 # Fetches the version of the package as defined in pyproject.toml
-__version__ = pkg_resources.get_distribution("python_template").version
+__version__ = version("python_template")

@@ -5,7 +5,7 @@ SHELL=/bin/bash
 ROOT_DIR=python-template
 PACKAGE=src/python_template
 PYTHON = python
-PYTHON_VERSION=3.10
+PYTHON_VERSION=3.11
 DOC_DIR=./docs
 TEST_DIR=./tests
 TEST_MARKER=placeholder
@@ -46,6 +46,7 @@ install-base: ## Installs only package dependencies
 	rye sync --no-dev --no-lock
 
 install: ## Installs the development version of the package
+	$(MAKE) install-rye
 	rye sync --no-lock
 	$(MAKE) install-precommit
 
@@ -59,7 +60,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install ruff==0.1.3
+	pip install ruff==0.1.11
 
 install-doc:
 	pip install mkdocs mkdocs-material mkdocstrings[python]
