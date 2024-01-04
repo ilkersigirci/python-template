@@ -34,7 +34,8 @@ jobs:
           make -s update-pip
       - name: Install the Project with Test Dependencies
         run: |
-          make -s install
+          rye sync --no-lock
+          pre-commit install
       # - name: Show dependencies
       #   run: python -m pip list
       - name: Test the Project
