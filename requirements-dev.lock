@@ -9,63 +9,143 @@
 
 -e file:.
 babel==2.14.0
+    # via mkdocs-material
 certifi==2024.2.2
+    # via requests
 cfgv==3.4.0
+    # via pre-commit
 charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
+    # via mkdocs
+    # via mkdocstrings
 cloudpickle==3.0.0
+    # via scalene
 colorama==0.4.6
-coverage==7.4.1
+    # via griffe
+    # via mkdocs-material
+coverage==7.5.0
+    # via pytest-cov
 distlib==0.3.8
-execnet==2.0.2
-filelock==3.13.1
+    # via virtualenv
+execnet==2.1.1
+    # via pytest-xdist
+filelock==3.14.0
+    # via virtualenv
 ghp-import==2.1.0
-griffe==0.40.0
-identify==2.5.33
-idna==3.6
+    # via mkdocs
+griffe==0.44.0
+    # via mkdocstrings-python
+identify==2.5.36
+    # via pre-commit
+idna==3.7
+    # via requests
 iniconfig==2.0.0
+    # via pytest
 jinja2==3.1.3
-markdown==3.5.2
+    # via mkdocs
+    # via mkdocs-material
+    # via mkdocstrings
+    # via scalene
+markdown==3.6
+    # via mkdocs
+    # via mkdocs-autorefs
+    # via mkdocs-material
+    # via mkdocstrings
+    # via pymdown-extensions
 markdown-it-py==3.0.0
+    # via rich
 markupsafe==2.1.5
+    # via jinja2
+    # via mkdocs
+    # via mkdocs-autorefs
+    # via mkdocstrings
 mdurl==0.1.2
+    # via markdown-it-py
 mergedeep==1.3.4
-mkdocs==1.5.3
-mkdocs-autorefs==0.5.0
-mkdocs-material==9.5.7
+    # via mkdocs
+    # via mkdocs-get-deps
+mkdocs==1.6.0
+    # via mkdocs-autorefs
+    # via mkdocs-material
+    # via mkdocstrings
+mkdocs-autorefs==1.0.1
+    # via mkdocstrings
+mkdocs-get-deps==0.2.0
+    # via mkdocs
+mkdocs-material==9.5.20
 mkdocs-material-extensions==1.3.1
-mkdocstrings==0.24.0
-mkdocstrings-python==1.8.0
-mypy==1.8.0
+    # via mkdocs-material
+mkdocstrings==0.25.0
+    # via mkdocstrings-python
+mkdocstrings-python==1.10.0
+    # via mkdocstrings
+mypy==1.10.0
 mypy-extensions==1.0.0
+    # via mypy
 nodeenv==1.8.0
-packaging==23.2
+    # via pre-commit
+packaging==24.0
+    # via mkdocs
+    # via pytest
+    # via pytest-rerunfailures
 paginate==0.5.6
+    # via mkdocs-material
 pathspec==0.12.1
-platformdirs==4.2.0
-pluggy==1.4.0
-pre-commit==3.6.0
+    # via mkdocs
+platformdirs==4.2.1
+    # via mkdocs-get-deps
+    # via mkdocstrings
+    # via virtualenv
+pluggy==1.5.0
+    # via pytest
+pre-commit==3.7.0
 psutil==5.9.8
+    # via scalene
 pygments==2.17.2
-pymdown-extensions==10.7
+    # via mkdocs-material
+    # via rich
+pymdown-extensions==10.8.1
+    # via mkdocs-material
+    # via mkdocstrings
 pynvml==11.4.1
-pytest==8.0.0
-pytest-cov==4.1.0
-pytest-rerunfailures==13.0
-pytest-xdist==3.5.0
-python-dateutil==2.8.2
+    # via scalene
+pytest==8.2.0
+    # via pytest-cov
+    # via pytest-rerunfailures
+    # via pytest-xdist
+pytest-cov==5.0.0
+pytest-rerunfailures==14.0
+pytest-xdist==3.6.1
+python-dateutil==2.9.0.post0
+    # via ghp-import
 pyyaml==6.0.1
+    # via mkdocs
+    # via mkdocs-get-deps
+    # via pre-commit
+    # via pymdown-extensions
+    # via pyyaml-env-tag
 pyyaml-env-tag==0.1
-regex==2023.12.25
+    # via mkdocs
+regex==2024.4.28
+    # via mkdocs-material
 requests==2.31.0
-rich==13.7.0
-ruff==0.2.0
+    # via mkdocs-material
+rich==13.7.1
+    # via scalene
+ruff==0.4.2
 scalene==1.5.21.4
+setuptools==69.5.1
+    # via nodeenv
 six==1.16.0
-typing-extensions==4.9.0
-urllib3==2.2.0
-virtualenv==20.25.0
-watchdog==3.0.0
-wheel==0.42.0
-# The following packages are considered to be unsafe in a requirements file:
-setuptools==69.0.3
+    # via python-dateutil
+typing-extensions==4.11.0
+    # via mypy
+urllib3==2.2.1
+    # via requests
+virtualenv==20.26.1
+    # via pre-commit
+watchdog==4.0.0
+    # via mkdocs
+wheel==0.43.0
+    # via scalene
