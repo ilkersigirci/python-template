@@ -54,6 +54,8 @@ dev-dependencies = [
     "pytest-rerunfailures",
     "pytest-xdist",
     # "pytest-timeout",
+    ## Jupyter
+    "ipykernel>=6.29.4",
 ]
 
 [[tool.rye.sources]]
