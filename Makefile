@@ -40,7 +40,8 @@ update-pip:
 	${PYTHON} -m pip install -U pip
 
 install-rye:
-	! command -v rye &> /dev/null && curl -sSf https://rye-up.com/get | bash
+	! command -v rye &> /dev/null && curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+	# echo 'source "$HOME/.rye/env"' >> ~/.bashrc
 
 install-base: ## Installs only package dependencies
 	rye sync --no-dev --no-lock

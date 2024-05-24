@@ -24,7 +24,7 @@ RUN \
 ENV RYE_HOME="/opt/rye"
 ENV PATH="$RYE_HOME/shims:$PATH"
 
-RUN curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+RUN curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
 
 # TODO: Find out the way to use local config.toml
 # COPY config.toml /opt/rye/config.toml
@@ -44,24 +44,15 @@ ENV \
     # rye doesn't respect this env var
     # UV_CACHE_DIR=/app/.cache/uv
 
-# RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-#     --mount=type=bind,source=requirements.lock,target=requirements.lock \
-#     --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
-#     --mount=type=bind,source=.python-version,target=.python-version \
-#     --mount=type=bind,source=README.md,target=README.md \
-#     --mount=type=bind,source=src,target=src \
-#     rye sync --no-lock
-
-COPY pyproject.toml requirements.lock requirements-dev.lock .python-version README.md src ./
-
-
-RUN \
-    --mount=type=cache,target=/root/.cache/uv \
-    # --mount=type=cache,target=/app/.cache/uv \
+RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=requirements.lock,target=requirements.lock \
+    --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
+    --mount=type=bind,source=.python-version,target=.python-version \
+    --mount=type=bind,source=README.md,target=README.md \
+    --mount=type=bind,source=src,target=src \
     rye sync --no-lock
 
 COPY . .
-
 
 #
 # Stage: build
