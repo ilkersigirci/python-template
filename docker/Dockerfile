@@ -40,9 +40,8 @@ WORKDIR /app
 ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONFAULTHANDLER=1
-    # rye doesn't respect this env var
-    # UV_CACHE_DIR=/app/.cache/uv
+    PYTHONFAULTHANDLER=1 \
+    UV_CACHE_DIR=/opt/rye/.cache/uv
 
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=requirements.lock,target=requirements.lock \
@@ -50,6 +49,7 @@ RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=src \
+    --mount=type=cache,target=/opt/rye/.cache/uv \
     rye sync --no-lock
 
 COPY . .
