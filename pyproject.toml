@@ -120,7 +120,6 @@ skip-magic-trailing-comma = false
 # preview = true
 
 [tool.ruff.lint]
-ignore-init-module-imports = true
 
 select = [
     "B",  # flake8-bugbear
