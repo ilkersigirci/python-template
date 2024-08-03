@@ -15,6 +15,7 @@
   },
   "python.languageServer": "Pylance",
   // "python.analysis.autoImportCompletions": true,
+  "ruff.nativeServer": "on",
   "autoDocstring.generateDocstringOnEnter": true,
   "autoDocstring.docstringFormat": "google",
   "autoDocstring.customTemplatePath": "docs/templates/google-notypes.mustache",
