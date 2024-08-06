@@ -1,4 +1,5 @@
-version: "3.9"
+name: bert-score-api
+
 services:
   app:
     container_name: app-dev

@@ -1,4 +1,4 @@
-version: "3.9"
+name: bert-score-api
 
 services:
   python-template-dev:

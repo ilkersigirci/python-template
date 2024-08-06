@@ -17,7 +17,7 @@ jobs:
   #       run: |
   #         sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
   #     - name: Install the latest version of rye
-  #       uses: eifinger/setup-rye@v1
+  #       uses: eifinger/setup-rye@v4
   #       with:
   #         enable-cache: true
   #         cache-prefix: 'rye-venv-cache'
@@ -40,7 +40,7 @@ jobs:
         run: |
           sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
       - name: Install the latest version of rye
-        uses: eifinger/setup-rye@v1
+        uses: eifinger/setup-rye@v4
         with:
           enable-cache: true
           cache-prefix: 'rye-venv-cache'
