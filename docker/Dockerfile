@@ -73,8 +73,8 @@ RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
 ARG PYTHON_VERSION=3.11
 FROM python:${PYTHON_VERSION}-slim-bookworm AS production
 
-ARG UID=1001
-ARG GID=1001
+ARG UID=1000
+ARG GID=1000
 
 ENV \
     PYTHONDONTWRITEBYTECODE=1 \
