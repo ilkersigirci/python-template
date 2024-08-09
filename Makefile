@@ -61,7 +61,7 @@ install-precommit: ## Install pre-commit hooks
 	pre-commit install
 
 install-lint:
-	pip install ruff==0.5.6
+	pip install ruff==0.5.7
 
 install-doc:
 	pip install mkdocs mkdocs-material mkdocstrings[python]

@@ -4,7 +4,7 @@
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
       // "source.fixAll": "always",
-      "source.organizeImports.ruff": "explicit",
+      "source.organizeImports": "explicit",
     },
     "editor.rulers": [
       {
@@ -25,8 +25,8 @@
   // "python.testing.pytestArgs": [],
   "notebook.formatOnSave.enabled": true,
   "notebook.codeActionsOnSave": {
-    // "source.fixAll.ruff": "always",
-    "source.organizeImports.ruff": "explicit",
+    // "notebook.source.fixAll": "always",
+    "notebook.source.organizeImports": "explicit",
   },
   "evenBetterToml.formatter.reorderKeys": true,
 }
