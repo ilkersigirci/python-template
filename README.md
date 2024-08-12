@@ -14,10 +14,12 @@
 
 ### Default installation
 
-- Install rye - System wide
+- Install rye - System wide (Assumes your shell is bash)
 
 ```bash
 make -s install-rye
+echo 'source "$HOME/.rye/env"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 - Install the project dependencies

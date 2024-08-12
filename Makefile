@@ -41,13 +41,16 @@ update-pip:
 
 install-rye:
 	! command -v rye &> /dev/null && curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
-	# echo 'source "$HOME/.rye/env"' >> ~/.bashrc
+
+update-rye: ## Update rye
+	rye self update
 
 install-base: ## Installs only package dependencies
 	rye sync --no-dev --no-lock
 
 install: ## Installs the development version of the package
 	$(MAKE) install-rye
+	$(MAKE) update-rye
 	rye sync --no-lock
 	$(MAKE) install-precommit
 
