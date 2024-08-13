@@ -18,17 +18,11 @@ RUN \
     && apt-get install -y --no-install-recommends \
     curl \
     build-essential
-    # && apt-get clean \
-    # && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
 
-ENV RYE_HOME="/opt/rye"
+ENV RYE_HOME="/app/rye"
 ENV PATH="$RYE_HOME/shims:$PATH"
 
 RUN curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
-
-# TODO: Find out the way to use local config.toml
-# COPY config.toml /opt/rye/config.toml
-RUN rye config --set-bool behavior.use-uv=true
 
 #
 # Stage: development
@@ -41,7 +35,7 @@ ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1 \
-    UV_CACHE_DIR=/opt/rye/.cache/uv
+    UV_CACHE_DIR=/app/rye/.cache/uv
 
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=requirements.lock,target=requirements.lock \
@@ -49,7 +43,7 @@ RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=src \
-    --mount=type=cache,target=/opt/rye/.cache/uv \
+    --mount=type=cache,target=/app/rye/.cache/uv \
     rye sync --no-lock
 
 COPY . .
@@ -82,20 +76,32 @@ ENV \
     PYTHONFAULTHANDLER=1 \
     PIP_ROOT_USER_ACTION=ignore \
     UV_SYSTEM_PYTHON=1 \
-    # UV_REQUIRE_HASHES=true \
+    UV_NO_CONFIG=1 \
     UV_NO_CACHE=1
+    # UV_CACHE_DIR=/app/rye/.cache/uv \
 
 WORKDIR /app
 
+# uv binary installation
+RUN \
+    apt-get update -y \
+    && apt-get install -y --no-install-recommends \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
+
+ADD --chmod=755 https://astral.sh/uv/install.sh /install.sh
+RUN /install.sh && rm /install.sh
+ENV PATH="/root/.cargo/bin/:$PATH"
+
 COPY --from=build /app/dist/*.whl ./
+
 RUN \
     --mount=type=bind,source=requirements.lock,target=requirements.lock \
+    # --mount=type=cache,target=/app/rye/.cache/uv \
     sed '/-e/d' requirements.lock > requirements.txt \
-    && pip install *.whl -r requirements.txt
-
-# FIXME: uv can't install from wheel
-# RUN python -m pip install --no-cache-dir uv==0.1.44 \
-#     && uv pip install *.whl -r requirements.txt
+    && uv pip install ./*.whl --constraint requirements.txt \
+    && rm requirements.txt
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user

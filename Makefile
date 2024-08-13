@@ -41,6 +41,7 @@ update-pip:
 
 install-rye:
 	! command -v rye &> /dev/null && curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+	# rye config --set-bool behavior.use-uv=true
 
 update-rye: ## Update rye
 	rye self update
