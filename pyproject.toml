@@ -39,7 +39,7 @@ dependencies = []
 managed = true
 dev-dependencies = [
     "pre-commit",
-    "ruff==0.5.7",
+    "ruff==0.6.0",
     "mypy",
     "scalene~=1.5.21.2",
     ## DOCS
@@ -94,9 +94,7 @@ line-length = 88
 src = ["src"]
 respect-gitignore = true
 
-extend-include = [
-    "*.ipynb"
-]
+# extend-include = []
 
 extend-exclude = [
     "docs",
@@ -106,6 +104,8 @@ extend-exclude = [
 # Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402", "F401"]
+# "*.ipynb" = ["E501"]  # disable line-too-long in notebooks
+
 # "path/to/file.py" = ["E402"]
 # 'python_template/__init__.py' = ['F405', 'F403']
 
@@ -137,8 +137,10 @@ select = [
     "RET", # return
     "RUF", # Enable all ruff-specific checks
     "SIM", # simplify
+    "S307", # eval
     "T20",  # (disallow print statements) keep debugging statements out of the codebase
     "W",  # pycodestyle warnings
+    "ASYNC" # async
 ]
 
 ignore = [

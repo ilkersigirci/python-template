@@ -161,7 +161,7 @@ pytest-xdist==3.6.1
 python-dateutil==2.9.0.post0
     # via ghp-import
     # via jupyter-client
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via mkdocs
     # via mkdocs-get-deps
     # via pre-commit
@@ -178,7 +178,7 @@ requests==2.31.0
     # via mkdocs-material
 rich==13.7.1
     # via scalene
-ruff==0.5.7
+ruff==0.6.0
 scalene==1.5.21.4
 setuptools==69.5.1
     # via nodeenv
