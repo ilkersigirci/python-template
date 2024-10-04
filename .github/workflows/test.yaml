@@ -12,7 +12,7 @@ jobs:
   # test:
   #   runs-on: ubuntu-22.04
   #   steps:
-  #     - uses: actions/checkout@v3
+  #     - uses: actions/checkout@v4
   #     - name: Disable Logger Outputs
   #       run: |
   #         sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
@@ -35,7 +35,7 @@ jobs:
         os: [ubuntu-22.04] # windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Disable Logger Outputs
         run: |
           sed -i "s/log_cli = true/log_cli = false/" pyproject.toml
