@@ -178,7 +178,7 @@ requests==2.31.0
     # via mkdocs-material
 rich==13.7.1
     # via scalene
-ruff==0.6.0
+ruff==0.6.9
 scalene==1.5.21.4
 setuptools==69.5.1
     # via nodeenv
