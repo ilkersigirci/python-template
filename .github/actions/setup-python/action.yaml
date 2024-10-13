@@ -13,13 +13,14 @@ runs:
       with:
         version: "latest"
         enable-cache: "true"
-        cache-suffix: ${{ matrix.python-version }}
+        cache-suffix: "UV_PYTHON"
+        python-version-file: ".python-version"
 
-    - name: Install Python ${{ matrix.python-version }}
-      run: uv python install ${{ matrix.python-version }}
+    - name: Install Python
+      run: uv python install
       shell: bash
 
     - name: Create virtual environment
       run: |
-        uv venv --python ${{ matrix.python-version }}
+        uv venv
       shell: bash
