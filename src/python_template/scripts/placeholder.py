@@ -1,4 +1,7 @@
-"""Useful python cli scripts."""
+"""Useful python cli scripts.
+
+Currently, `uv` not support this feature.
+"""
 
 
 def placeholder_script():
@@ -6,4 +9,4 @@ def placeholder_script():
 
     More detail: https://setuptools.pypa.io/en/latest/userguide/entry_point.html
     """
-    print("This is a placeholder script that can be run as `entry point`")  # noqa: T201
+    print("This is a placeholder script that can be run as `entrypoint`")  # noqa: T201

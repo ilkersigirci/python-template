@@ -1,4 +1,4 @@
-name: bert-score-api
+name: python-template
 
 services:
   app:

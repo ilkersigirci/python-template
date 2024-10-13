@@ -4,13 +4,10 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
-      - id: check-ast
-      - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-merge-conflict
-      - id: check-docstring-first
       #  - id: check-symlinks
       #  - id: check-json
       - id: check-toml
@@ -21,27 +18,28 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
         description: Forces to replace line ending by the UNIX 'lf' character.
-      - id: fix-encoding-pragma
-        args: ["--remove"]
-        description: Removes the encoding-pragma since python3 codes are utf-8 by default
       - id: check-added-large-files
         args: ["--maxkb=1000"]
 
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-mock-methods
-      - id: python-no-log-warn
-      - id: python-no-eval
-      - id: python-use-type-annotations
+  # - repo: https://github.com/astral-sh/uv-pre-commit
+  #   # uv version.
+  #   rev: 0.4.20
+  #   hooks:
+  #     # Update the uv lockfile
+  #     - id: uv-lock
+  #     # Run the pip compile
+  #     - id: pip-compile
+  #       args: [requirements.in, -o, requirements.txt]
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.5.7
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
     hooks:
       # Run the Ruff linter.
       - id: ruff
+        args: [--exit-non-zero-on-fix, --config=pyproject.toml]
       # Run the Ruff formatter.
       - id: ruff-format
+        args: [--config=pyproject.toml]
 
   # NOTE: It doesn't use pyproject.toml configs. We might enable it the future.
   # - repo: https://github.com/pre-commit/mirrors-mypy

@@ -1,19 +1,28 @@
-name: bert-score-api
+name: python-template
 
 services:
   python-template-dev:
     image: python-template-dev:latest
+    container_name: python-template-dev
     build:
       context: .
       dockerfile: docker/Dockerfile
       target: development
     # ports:
     #   - 8080:8080
+    command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container
+    restart: "no"
+    volumes:
+      - ./src:/app/src
+
   python-template-prod:
     image: python-template-prod:latest
+    container_name: python-template-prod
     build:
       context: .
       dockerfile: docker/Dockerfile
       target: production
     # ports:
     #   - 8080:8080
+    command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container
+    restart: "no"

@@ -4,8 +4,6 @@
 SHELL=/bin/bash
 ROOT_DIR=python-template
 PACKAGE=src/python_template
-PYTHON = python
-PYTHON_VERSION=3.11
 DOC_DIR=./docs
 TEST_DIR=./tests
 TEST_MARKER=placeholder
@@ -15,8 +13,6 @@ PROFILE_FILE_PATH=./python_template/__init__.py
 DOCKER_IMAGE=python-template
 DOCKER_TARGET=development
 
-# TODO: add source for rye
-PYPI_URLS=
 
 .PHONY: help install test clean build publish doc pre-commit format lint profile
 .DEFAULT_GOAL=help
@@ -32,75 +28,68 @@ ifeq ($(shell test -f .env && echo 1),1)
     export
 endif
 
-python-info: ## List information about the python environment
-	@which ${PYTHON}
-	@${PYTHON} --version
+install-uv: ## Install uv
+	! command -v uv &> /dev/null && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="~/.cargo/bin" sh
 
-update-pip:
-	${PYTHON} -m pip install -U pip
-
-install-rye:
-	! command -v rye &> /dev/null && curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
-	# rye config --set-bool behavior.use-uv=true
-
-update-rye: ## Update rye
-	rye self update
+update-uv: ## Update uv to the latest version
+	uv self update
 
 install-base: ## Installs only package dependencies
-	rye sync --no-dev --no-lock
+	uv sync --frozen --no-dev --no-install-project
 
 install: ## Installs the development version of the package
-	$(MAKE) install-rye
-	$(MAKE) update-rye
-	rye sync --no-lock
+	$(MAKE) install-uv
+	$(MAKE) update-uv
+	uv sync --frozen
 	$(MAKE) install-precommit
 
-# # FIXME: Currently not supported by rye
-# install-no-cache: ## Installs the development version of the package
+install-no-cache: ## Installs the development version of the package without cache
+	$(MAKE) install-uv
+	$(MAKE) update-uv
+	uv sync --frozen --no-cache
+	$(MAKE) install-precommit
 
-# FIXME: Currently not supported by rye
+# FIXME: Currently not supported by uv
 # install-test: ## Install only test version of the package
 
 install-precommit: ## Install pre-commit hooks
-	pre-commit install
+	uv run pre-commit install
 
 install-lint:
-	pip install ruff==0.5.7
+	uv pip install ruff==0.6.9
 
 install-doc:
-	pip install mkdocs mkdocs-material mkdocstrings[python]
+	uv pip install mkdocs mkdocs-material mkdocstrings[python]
 
 update-dependencies: ## Updates the lockfiles and installs dependencies. Dependencies are updated if necessary
-	rye sync
-	# Updates the lockfiles without installing dependencies
-	# rye lock
+	uv sync
 
 upgrade-dependencies: ## Updates the lockfiles and installs the latest version of the dependencies
-	rye sync --update-all
+	uv sync -U
 
 test-one: ## Run specific tests with TEST_MARKER=<test_name>, default marker is `placeholder`
-	${PYTHON} -m pytest -m ${TEST_MARKER}
+	uv run --module pytest -m ${TEST_MARKER}
 
 test-one-parallel: ## Run specific tests with TEST_MARKER=<test_name> in parallel, default marker is `placeholder`
-	${PYTHON} -m pytest -n auto -m ${TEST_MARKER}
+	uv run --module pytest -n auto -m ${TEST_MARKER}
 
 test-all: ## Run all tests
 	# mkdir -p ${TEST_OUTPUT_DIR}
 	# cp .coveragerc ${TEST_OUTPUT_DIR}
 	# cp setup.cfg ${TEST_OUTPUT_DIR}
-	${PYTHON} -m pytest
+	uv run --module pytest
 
 test-all-parallel: ## Run all tests with parallelization
-	${PYTHON} -m pytest -n auto
+	uv run --module pytest -n auto
 
 test-coverage: ## Run all tests with coverage
-	${PYTHON} -m pytest --cov=${PACKAGE} --cov-report=html:coverage
+	uv run --module pytest --cov=${PACKAGE} --cov-report=html:coverage
 
 test-coverage-parallel:
-	${PYTHON} -m pytest -n auto --cov=${PACKAGE} --cov-report=html:coverage
+	uv run --module pytest -n auto --cov=${PACKAGE} --cov-report=html:coverage
 
 test-docs: ## Test documentation examples with doctest
-	${PYTHON} -m pytest --doctest-modules ${PACKAGE}
+	uv run --module pytest --doctest-modules ${PACKAGE}
 
 test: clean-test test-all ## Cleans and runs all tests
 test-parallel: clean-test test-all-parallel ## Cleans and runs all tests with parallelization
@@ -129,69 +118,65 @@ clean: clean-build clean-test ## Cleans build and test related files
 
 build: ## Make Python source distribution
 	$(MAKE) clean-build
-	rye build --sdist --out dist
-
-	# NOTE: Below will fail if there is no dist folder
-	# See: https://github.com/mitsuhiko/rye/issues/475
-	# rye build --clean --sdist --out dist
+	uv build --sdist --out-dir dist
 
 build-wheel: ## Make Python wheel distribution
 	$(MAKE) clean-build
-	rye build --wheel --out dist
+	uv build --wheel --out-dir dist
 
 publish: ## Builds the project and publish the package to Pypi
 	# $(MAKE) build
-	rye publish dist/*
-	# rye publish --repository-url https://test.pypi.org/legacy/ dist/*
+	uv publish dist/*
+	# uv publish --publish-url https://test.pypi.org/legacy/ --username DUMMY --password DUMMY dist/*
 
 doc: ## Build documentation with mkdocs
-	mkdocs build
+	uv run mkdocs build
 
 doc-github: ## Build documentation with mkdocs and deploy to github pages
-	mkdocs gh-deploy --force
+	uv run mkdocs gh-deploy --force
 
 doc-dev: ## Show documentation preview with mkdocs
-	mkdocs serve -w ${PACKAGE}
+	uv run mkdocs serve -w ${PACKAGE}
 
 pre-commit-one: ## Run pre-commit with specific files
-	pre-commit run --files ${PRECOMMIT_FILE_PATHS}
+	uv run pre-commit run --files ${PRECOMMIT_FILE_PATHS}
 
 pre-commit: ## Run pre-commit for all package files
-	pre-commit run --all-files
+	uv run pre-commit run --all-files
 
 pre-commit-clean: ## Clean pre-commit cache
-	pre-commit clean
+	uv run pre-commit clean
 
 lint: ## Lint code with ruff
-	${PYTHON} -m ruff format ${PACKAGE} --check --diff
-	${PYTHON} -m ruff check ${PACKAGE}
+	uv run --module ruff format ${PACKAGE} --check --diff
+	uv run --module ruff check ${PACKAGE}
 
 lint-report: ## Lint report for gitlab
-	${PYTHON} -m ruff format ${PACKAGE} --check --diff
-	${PYTHON} -m ruff check ${PACKAGE} --format gitlab > gl-code-quality-report.json
+	uv run --module ruff format ${PACKAGE} --check --diff
+	uv run --module ruff check ${PACKAGE} --format gitlab > gl-code-quality-report.json
 
 format: ## Run ruff for all package files. CHANGES CODE
-	${PYTHON} -m ruff format ${PACKAGE}
-	${PYTHON} -m ruff check ${PACKAGE} --fix --show-fixes
+	uv run --module ruff format ${PACKAGE}
+	uv run --module ruff check ${PACKAGE} --fix --show-fixes
 
 typecheck:  ## Checks code with mypy
-	${PYTHON} -m mypy --package ${PACKAGE}
-	# MYPYPATH=src ${PYTHON} -m mypy --package ${PACKAGE}
+	uv run --module mypy --package ${PACKAGE}
+	# MYPYPATH=src uv run --module mypy --package ${PACKAGE}
 
 typecheck-no-cache:  ## Checks code with mypy no cache
-	${PYTHON} -m mypy --package ${PACKAGE} --no-incremental
+	uv run --module mypy --package ${PACKAGE} --no-incremental
 
 typecheck-report: ## Checks code with mypy and generates html report
-	${PYTHON} -m mypy --package ${PACKAGE} --html-report mypy_report
+	uv run --module mypy --package ${PACKAGE} --html-report mypy_report
 
 profile: ## Profile the file with scalene and shows the report in the terminal
-	${PYTHON} -m scalene --cli --reduced-profile ${PROFILE_FILE_PATH}
+	uv run --module scalene --cli --reduced-profile ${PROFILE_FILE_PATH}
 
 profile-gui: ## Profile the file with scalene and shows the report in the browser
-	${PYTHON} -m scalene ${PROFILE_FILE_PATH}
+	uv run --module scalene ${PROFILE_FILE_PATH}
 
 profile-builtin: ## Profile the file with cProfile and shows the report in the terminal
-	${PYTHON} -m cProfile -s tottime ${PROFILE_FILE_PATH}
+	uv run --module cProfile -s tottime ${PROFILE_FILE_PATH}
 
 docker-build: ## Build docker image
 	docker build --tag ${DOCKER_IMAGE} --file docker/Dockerfile --target ${DOCKER_TARGET} .

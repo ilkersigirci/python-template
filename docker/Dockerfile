@@ -1,13 +1,12 @@
-ARG BASE_IMAGE=debian:bookworm-slim
-ARG PYTHON_VERSION=3.11
+ARG DEV_IMAGE=ghcr.io/astral-sh/uv:bookworm-slim
+ARG PROD_IMAGE=ghcr.io/astral-sh/uv:python3.11-bookworm-slim
+ARG UID=1000
+ARG GID=1000
 
 #
 # Stage: staging
 #
-FROM python:${PYTHON_VERSION}-slim-bookworm AS staging
-
-# FIXME: /bin/sh rye not found
-# FROM ${BASE_IMAGE} AS staging
+FROM ${DEV_IMAGE} AS staging
 
 WORKDIR /app
 
@@ -16,13 +15,11 @@ RUN \
     --mount=type=cache,target=/var/cache/apt/archives \
     apt-get update -y \
     && apt-get install -y --no-install-recommends \
-    curl \
+    # curl \
     build-essential
 
-ENV RYE_HOME="/app/rye"
-ENV PATH="$RYE_HOME/shims:$PATH"
-
-RUN curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+ENV \
+    PATH="/app/.venv/bin:$PATH"
 
 #
 # Stage: development
@@ -35,18 +32,28 @@ ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1 \
-    UV_CACHE_DIR=/app/rye/.cache/uv
+    UV_CACHE_DIR=/root/.cache/uv \
+    UV_LINK_MODE=copy
 
+# Install the project's dependencies.
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=requirements.lock,target=requirements.lock \
-    --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
-    --mount=type=bind,source=.python-version,target=.python-version \
-    --mount=type=bind,source=README.md,target=README.md \
-    --mount=type=bind,source=src,target=src \
-    --mount=type=cache,target=/app/rye/.cache/uv \
-    rye sync --no-lock
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    # --mount=type=bind,source=.python-version,target=.python-version \
+    # --mount=type=bind,source=README.md,target=README.md \
+    # --mount=type=bind,source=src,target=src \
+    --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project
 
 COPY . .
+
+# Install the project.
+RUN \
+    --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen
+
+RUN chmod +x /app/docker/entrypoint.sh
+ENTRYPOINT ["/app/docker/entrypoint.sh"]
+
 
 #
 # Stage: build
@@ -54,54 +61,46 @@ COPY . .
 FROM staging AS build
 
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=requirements.lock,target=requirements.lock \
-    --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=src \
-    rye build --wheel --clean
+    uv build --wheel --out-dir dist
 
 #
 # Stage: production
 #
-ARG PYTHON_VERSION=3.11
-FROM python:${PYTHON_VERSION}-slim-bookworm AS production
+# FROM staging AS production
+ARG PROD_IMAGE
+FROM ${PROD_IMAGE} as production
 
-ARG UID=1000
-ARG GID=1000
+ARG UID
+ARG GID
 
 ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1 \
-    PIP_ROOT_USER_ACTION=ignore \
     UV_SYSTEM_PYTHON=1 \
     UV_NO_CONFIG=1 \
-    UV_NO_CACHE=1
-    # UV_CACHE_DIR=/app/rye/.cache/uv \
+    UV_NO_CACHE=1 \
+    # UV_CACHE_DIR=/root/.cache/uv \
+    UV_COMPILE_BYTECODE=1
 
 WORKDIR /app
 
-# uv binary installation
-RUN \
-    apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
-
-ADD --chmod=755 https://astral.sh/uv/install.sh /install.sh
-RUN /install.sh && rm /install.sh
-ENV PATH="/root/.cargo/bin/:$PATH"
-
 COPY --from=build /app/dist/*.whl ./
 
+COPY docker/entrypoint.sh ./entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 RUN \
-    --mount=type=bind,source=requirements.lock,target=requirements.lock \
-    # --mount=type=cache,target=/app/rye/.cache/uv \
-    sed '/-e/d' requirements.lock > requirements.txt \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    # --mount=type=cache,target=/root/.cache/uv \
+    uv export --frozen --no-emit-project --format requirements-txt > requirements.txt  \
     && uv pip install ./*.whl --constraint requirements.txt \
-    && rm requirements.txt
+    && rm -rf requirements.txt
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
@@ -118,3 +117,5 @@ RUN chown -R appuser:appuser /app
 
 # Switch to the non-privileged user to run the application.
 USER appuser
+
+ENTRYPOINT ["/app/entrypoint.sh"]

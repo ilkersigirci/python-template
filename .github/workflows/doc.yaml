@@ -14,18 +14,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: ".python-version"
-      - name: Set up cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.ref }}
-          path: .cache
-      - name: Pip Update
-        run: |
-          make -s update-pip
+      - name: Set up python environment
+        uses: ./.github/actions/setup-python
+      # - name: Set up cache
+      #   uses: actions/cache@v2
+      #   with:
+      #     key: ${{ github.ref }}
+      #     path: .cache
       - name: Docs Dependency Installation
         run: |
           make -s install-doc
