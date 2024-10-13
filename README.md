@@ -7,18 +7,17 @@
     - One of the biggest problems with setuptools is that the use of an executable file (i.e. the setup.py) cannot be executed without knowing its dependencies. And there is really no way to know what these dependencies are unless you actually execute the file that contains the information related to package dependencies.
     - The pyproject.toml file is supposed to solve the build-tool dependency chicken and egg problem since pip itself can read pyproject.yoml along with the version of setuptools or wheel the project requires.
     - The pyproject.toml file was introduced in PEP-518 (2016) as a way of separating configuration of the build system from a specific, optional library (setuptools) and also enabling setuptools to install itself without already being installed. Subsequently PEP-621 (2020) introduces the idea that the pyproject.toml file be used for wider project configuration and PEP-660 (2021) proposes finally doing away with the need for setup.py for editable installation using pip.
-- It uses [rye](https://github.com/astral-sh/rye) for python dependency operations and virtual environment management.
+- It uses [uv](https://github.com/astral-sh/uv) for python dependency operations and virtual environment management.
 - It uses `src` layout, which is the recommended layout for python projects to avoid common [pitfalls](https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure).
 
 ## Install
 
 ### Default installation
 
-- Install rye - System wide (Assumes your shell is bash)
+- Install uv - System wide
 
 ```bash
-make -s install-rye
-echo 'source "$HOME/.rye/env"' >> ~/.bashrc
+make -s install-uv
 source ~/.bashrc
 ```
 
@@ -29,7 +28,6 @@ make -s install
 ```
 
 - After running above command, the project installed in editable mode with all development and test dependencies installed.
-- Moreover, a dummy `entry point` called `placeholder` will be available as a cli command.
 
 ### Docker
 

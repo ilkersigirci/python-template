@@ -35,13 +35,12 @@ classifiers = [
 
 dependencies = []
 
-[tool.rye]
-managed = true
+[tool.uv]
 dev-dependencies = [
     "pre-commit",
     "ruff==0.6.9",
     "mypy",
-    "scalene~=1.5.21.2",
+    # "scalene~=1.5.21.2",
     ## DOCS
     "mkdocs",
     "mkdocs-material",
@@ -57,13 +56,6 @@ dev-dependencies = [
     ## Jupyter
     "ipykernel>=6.29.4",
 ]
-
-[[tool.rye.sources]]
-name = "default"
-url = "https://pypi.org/simple/"
-
-[tool.rye.scripts]
-placeholder = "python_template.scripts.placeholder:placeholder_script"
 
 [tool.pytest.ini_options]
 minversion = "7.0.0"
