@@ -14,7 +14,6 @@ runs:
         version: "latest"
         enable-cache: "true"
         cache-suffix: "UV_PYTHON"
-        python-version-file: ".python-version"
 
     - name: Install Python
       run: uv python install
