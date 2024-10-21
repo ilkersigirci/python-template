@@ -33,7 +33,8 @@ ENV \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1 \
     UV_CACHE_DIR=/root/.cache/uv \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    UV_FROZEN=1
 
 # Install the project's dependencies.
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
@@ -42,14 +43,14 @@ RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     # --mount=type=bind,source=README.md,target=README.md \
     # --mount=type=bind,source=src,target=src \
     --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project
+    uv sync --no-install-project
 
 COPY . .
 
 # Install the project.
 RUN \
     --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync
 
 RUN chmod +x /app/docker/entrypoint.sh
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
@@ -85,7 +86,8 @@ ENV \
     UV_NO_CONFIG=1 \
     UV_NO_CACHE=1 \
     # UV_CACHE_DIR=/root/.cache/uv \
-    UV_COMPILE_BYTECODE=1
+    UV_COMPILE_BYTECODE=1 \
+    UV_FROZEN=1
 
 WORKDIR /app
 
@@ -98,7 +100,7 @@ RUN \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     # --mount=type=cache,target=/root/.cache/uv \
-    uv export --frozen --no-emit-project --format requirements-txt > requirements.txt  \
+    uv export --no-emit-project --format requirements-txt > requirements.txt  \
     && uv pip install ./*.whl --constraint requirements.txt \
     && rm -rf requirements.txt
 
