@@ -36,26 +36,8 @@ classifiers = [
 dependencies = []
 
 [tool.uv]
-dev-dependencies = [
-    "pre-commit",
-    "ruff==0.6.9",
-    "mypy",
-    # "scalene~=1.5.21.2",
-    ## DOCS
-    "mkdocs",
-    "mkdocs-material",
-    "mkdocstrings[python]",
-    # "mdx-include",
-    # "mkdocs-markdownextradata-plugin",
-    ## TEST
-    "pytest",
-    "pytest-cov",
-    "pytest-rerunfailures",
-    "pytest-xdist",
-    # "pytest-timeout",
-    ## Jupyter
-    "ipykernel>=6.29.4",
-]
+default-groups = ["dev", "doc", "test"]
+
 
 [tool.pytest.ini_options]
 minversion = "7.0.0"
@@ -203,3 +185,26 @@ allow-direct-references = true
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.7.1",
+    # "scalene~=1.5.21.2",
+]
+doc = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.5.42",
+    "mkdocstrings[python]>=0.26.2",
+    # "mdx-include",
+    # "mkdocs-markdownextradata-plugin",
+]
+test = [
+    "pytest-cov>=5.0.0",
+    "pytest-rerunfailures>=14.0",
+    "pytest-xdist>=3.6.1",
+    "pytest>=8.3.3",
+    # "pytest-timeout",
+]

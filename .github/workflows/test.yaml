@@ -20,7 +20,7 @@ jobs:
         uses: ./.github/actions/setup-python
       - name: Install the Project with Test Dependencies
         run: |
-          make install
+          make install-test
       - name: Test the Project
         run: |
           make test-all-parallel

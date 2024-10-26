@@ -49,14 +49,14 @@ install-no-cache: ## Installs the development version of the package without cac
 	uv sync --frozen --no-cache
 	$(MAKE) install-precommit
 
-# FIXME: Currently not supported by uv
-# install-test: ## Install only test version of the package
+install-test: ## Install only test version of the package
+	uv sync --frozen --only-group test
 
 install-precommit: ## Install pre-commit hooks
 	uv run pre-commit install
 
 install-lint:
-	uv pip install ruff==0.6.9
+	uv pip install ruff==0.7.1
 
 install-doc:
 	uv pip install mkdocs mkdocs-material mkdocstrings[python]
