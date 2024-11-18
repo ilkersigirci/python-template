@@ -1,5 +1,13 @@
 name: python-template
 
+networks:
+  python-template-network:
+    name: python-template-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+
 services:
   python-template-dev:
     image: python-template-dev:latest
@@ -8,12 +16,25 @@ services:
       context: .
       dockerfile: docker/Dockerfile
       target: development
+    networks:
+      - python-template-network
     # ports:
     #   - 8080:8080
     command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container
     restart: "no"
-    volumes:
-      - ./src:/app/src
+    develop:
+      watch:
+        # Sync the working directory with the `/app` directory in the container
+        - action: sync
+          path: .
+          target: /app
+          # Exclude the project virtual environment
+          ignore:
+            - .venv/
+
+        # Rebuild the image on changes to the `pyproject.toml`
+        - action: rebuild
+          path: ./pyproject.toml
 
   python-template-prod:
     image: python-template-prod:latest
@@ -22,6 +43,8 @@ services:
       context: .
       dockerfile: docker/Dockerfile
       target: production
+    networks:
+      - python-template-network
     # ports:
     #   - 8080:8080
     command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container

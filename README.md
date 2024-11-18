@@ -32,10 +32,10 @@ make -s install
 ### Docker
 
 ```bash
-# Development build (800 MB)
+# Development build
 docker build --tag python-template --file docker/Dockerfile --target development .
 
-# Production build (145 MB)
+# Production build
 docker build --tag python-template --file docker/Dockerfile --target production .
 ```
 
@@ -46,6 +46,19 @@ docker run -it python-template:latest bash
 
 # Temporary container
 docker run --rm -it python-template:latest bash
+```
+
+- Development inside the container:
+- For more information [watch-versus-bind-mounts](https://docs.docker.com/compose/file-watch/#compose-watch-versus-bind-mounts)
+
+```bash
+docker compose up -d python-template-dev --watch
+```
+
+- Run production image:
+
+```bash
+docker compose up -d python-template-prod
 ```
 
 ## IDE Setings
@@ -85,8 +98,8 @@ Enable all except:
 
 ```bash
 # All available commands
-makefile
-makefile help
+make
+make help
 
 # Run all tests
 make -s test

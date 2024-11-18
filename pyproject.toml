@@ -179,8 +179,9 @@ exclude_lines = [
 #     'src/python_template/',
 # ]
 
-[tool.hatch.metadata]
-allow-direct-references = true
+# [build-system]
+# requires = ["uv>=0.5.0,<1.0.0"]
+# build-backend = "uv._build_backend" # FIXME: Only builds source distribution, not wheel
 
 [build-system]
 requires = ["hatchling"]
