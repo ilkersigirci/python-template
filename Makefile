@@ -41,4 +41,7 @@ create-example-project: ## Create and test a new project with the cookiecutter t
 		email="sigirci.ilker@gmail.com" \
 		github_author_handle=ilkersigirci \
 		project_name=python-template-example \
-		project_slug=python_template_example
+		project_slug=python_template_example \
+		git_remote_location=github \
+		devcontainer=n \
+		open_source_license="MIT license"
