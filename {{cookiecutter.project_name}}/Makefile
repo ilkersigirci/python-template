@@ -29,7 +29,7 @@ ifeq ($(shell test -f .env && echo 1),1)
 endif
 
 install-uv: ## Install uv
-	! command -v uv &> /dev/null && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="~/.cargo/bin" sh
+	! command -v uv &> /dev/null && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="~/.local/bin" sh
 
 update-uv: ## Update uv to the latest version
 	uv self update
