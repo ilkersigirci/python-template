@@ -1,3 +1,4 @@
+#{% raw %}
 -   [Link](https://github.com/NilsJPWerner/autoDocstring/tree/f7bc9f427d5ebcd87e6f5839077a87ecd1cbb404/src/docstring/templates)
 
 # Variables
@@ -64,3 +65,4 @@
 {{#placeholder}}                - makes contents a placeholder
 {{/placeholder}}
 ```
+#{% endraw %}

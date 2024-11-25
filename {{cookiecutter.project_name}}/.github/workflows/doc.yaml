@@ -1,3 +1,4 @@
+#{% raw %}
 name: Docs via GitHub Pages
 
 on:
@@ -27,3 +28,4 @@ jobs:
       - name: Deploy the documentation to GitHub Pages
         run: |
           make -s doc-github
+#{% endraw %}

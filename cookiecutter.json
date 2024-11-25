@@ -5,9 +5,9 @@
   "project_name": "python-template",
   "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
   "project_description": "This is a template repository for Python projects",
-  "include_github_actions": [
-    "y",
-    "n"
+  "git_remote_location": [
+    "gitlab",
+    "github"
   ],
   "devcontainer": [
     "y",
