@@ -17,20 +17,20 @@ DEFAULT_LOGGER_CONFIG = {
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
         "colored": {
-            "()": "python_template.loggers.formatters.ColoredFormatter",
+            "()": "{{cookiecutter.project_slug}}.loggers.formatters.ColoredFormatter",
             "format": "%(asctime)-20s :: %(name)-8s :: %(levelname)-8s :: %(pathname)s:%(lineno)d :: %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
     "filters": {
         "info": {
-            "()": "python_template.loggers.filters.InfoFilter",
+            "()": "{{cookiecutter.project_slug}}.loggers.filters.InfoFilter",
         },
         "cwd": {
-            "()": "python_template.loggers.filters.CwdFilter",
+            "()": "{{cookiecutter.project_slug}}.loggers.filters.CwdFilter",
         },
         # "path_shortener": {
-        #     "()": "python_template.loggers.filters.PathShortenerFilter",
+        #     "()": "{{cookiecutter.project_slug}}.loggers.filters.PathShortenerFilter",
         # }
     },
     "handlers": {
@@ -44,7 +44,7 @@ DEFAULT_LOGGER_CONFIG = {
         "file_handler": {
             "class": "logging.FileHandler",
             "level": "INFO",
-            "filename": "python_template.log",
+            "filename": "{{cookiecutter.project_slug}}.log",
             "formatter": "base",
             "filters": ["cwd"],
         },
@@ -63,7 +63,7 @@ DEFAULT_LOGGER_CONFIG = {
             "handlers": ["console"],
             "propagate": True,  # Inherit root handlers
         },
-        "python_template": {
+        "{{cookiecutter.project_slug}}": {
             "level": "DEBUG",
             "handlers": ["console"],  # ,file_handler
             "propagate": True,  # Inherit root handlers

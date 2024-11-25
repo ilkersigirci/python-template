@@ -3,7 +3,7 @@
 import logging
 import logging.config
 
-from python_template.loggers.configs.default import DEFAULT_LOGGER_CONFIG
+from {{cookiecutter.project_slug}}.loggers.configs.default import DEFAULT_LOGGER_CONFIG
 
 logger = logging.getLogger(__name__)
 

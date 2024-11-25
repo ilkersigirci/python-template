@@ -1,10 +1,10 @@
 [project]
-name = "python_template"
+name = "{{cookiecutter.project_slug}}"
 version = "0.0.0"
 description = "Python Template"
 
 # NOTE: Overwrites .python-version
-# requires-python = ">=3.11,<3.13"
+requires-python = ">=3.11,<3.13"
 
 authors = [
     {name = "template", email = "template@github.com"},
@@ -49,7 +49,7 @@ addopts = [
 #    "--strict-markers",
 #    "--doctest-modules",
     # NOTE: cov is not working with pycharm debugger. Enable it later!
-#    "--cov python_template",
+#    "--cov {{cookiecutter.project_slug}}",
 #    "--cov-report=xml",
 #    "--cov-report html",
 ]
@@ -81,7 +81,7 @@ extend-exclude = [
 # "*.ipynb" = ["E501"]  # disable line-too-long in notebooks
 
 # "path/to/file.py" = ["E402"]
-# 'python_template/__init__.py' = ['F405', 'F403']
+# '{{cookiecutter.project_slug}}/__init__.py' = ['F405', 'F403']
 
 # [tool.ruff.flake8-quotes]
 # inline-quotes = "single"
@@ -147,7 +147,7 @@ combine-as-imports = true
 # Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
 [tool.mypy]
 # python_version = "3.8"
-files = ["src/python_template"]
+files = ["src/{{cookiecutter.project_slug}}"]
 # exclude = ['^tests/']
 strict = true
 show_error_codes = true
@@ -160,7 +160,7 @@ ignore_missing_imports = true
 check_untyped_defs = true
 
 [tool.coverage.run]
-source = ['src/python_template']
+source = ['src/{{cookiecutter.project_slug}}']
 branch = true
 context = '${CONTEXT}'
 
@@ -176,7 +176,7 @@ exclude_lines = [
 
 # [tool.coverage.paths]
 # source = [
-#     'src/python_template/',
+#     'src/{{cookiecutter.project_slug}}/',
 # ]
 
 # [build-system]
@@ -192,7 +192,7 @@ dev = [
     "ipykernel>=6.29.5",
     "mypy>=1.13.0",
     "pre-commit>=4.0.1",
-    "ruff>=0.7.1",
+    "ruff>=0.8.0",
     # "scalene~=1.5.21.2",
 ]
 doc = [

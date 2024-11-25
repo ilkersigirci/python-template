@@ -1,6 +1,6 @@
 import pytest
 
-from python_template.placeholder import add, divide, multiply, subtract
+from {{cookiecutter.project_slug}}.placeholder import add, divide, multiply, subtract
 
 
 def test_add():

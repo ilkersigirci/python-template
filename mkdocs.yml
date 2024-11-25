@@ -1,45 +1,57 @@
 site_name: Python Template
 site_dir: public
 site_url: https://github.com/ilkersigirci/python-template
-# repo_url: https://gitlab.com/ilkersigirci/python-template # # For GitLab
-repo_url: https://ilkersigirci.github.io/python-template/ # For GitHub
-# repo_name: GitLab
-repo_name: GitHub
-
-theme:
-  name: material
-  palette:
-    primary: blue
-    accent: blue
+site_description: A cookiecutter template for Python projects
+site_author: İlker SIĞIRCI
+edit_uri: edit/main/docs/
+repo_url: https://ilkersigirci.github.io/python-template/
+repo_name: ilkersigirci/python-template
+copyright: Maintained by <a href="https://blog.ilkerflix.com">İlker SIĞIRCI</a>.
 
 plugins:
   - search
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: [src]
-          options:
-            # Headings options
-            show_root_heading: false
-            # Members options
-            show_submodules: true
-            # Docstrings options
-            docstring_style: google
-            # docstring_options
-            docstring_section_style: table
-            line_length: 88
-            merge_init_into_class: true
-            # Signatures/annotations options
-            show_signature: true
-            show_signature_annotations: false
-            separate_signature: true
-            # Additional options
-            show_bases: true
-            show_source: true
 
 nav:
-  - index.md
-  - tutorials.md
-  - how-to-guides.md
-  - reference.md
-  - explanation.md
+  - Home: index.md
+  - Tutorials:
+    - Docker: tutorials/docker.md
+    - IDE Settings: tutorials/ide-settings.md
+    - Uv: tutorials/uv.md
+    - Makefile: tutorials/makefile.md
+
+theme:
+  name: material
+  feature:
+    tabs: true
+  palette:
+    # Note: Using the system theme works with the insiders version
+    # https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#automatic-light-dark-mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: astral-light
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: astral-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ilkersigirci/python-template
+    # - icon: fontawesome/brands/python
+    #   link: https://pypi.org/project/python-template/
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true

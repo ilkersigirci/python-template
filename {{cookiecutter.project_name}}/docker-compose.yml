@@ -1,23 +1,23 @@
-name: python-template
+name: {{cookiecutter.project_name}}
 
 networks:
-  python-template-network:
-    name: python-template-network
+  {{cookiecutter.project_name}}-network:
+    name: {{cookiecutter.project_name}}-network
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.10.0/24
 
 services:
-  python-template-dev:
-    image: python-template-dev:latest
-    container_name: python-template-dev
+  {{cookiecutter.project_name}}-dev:
+    image: {{cookiecutter.project_name}}-dev:latest
+    container_name: {{cookiecutter.project_name}}-dev
     build:
       context: .
       dockerfile: docker/Dockerfile
       target: development
     networks:
-      - python-template-network
+      - {{cookiecutter.project_name}}-network
     # ports:
     #   - 8080:8080
     command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container
@@ -36,15 +36,15 @@ services:
         - action: rebuild
           path: ./pyproject.toml
 
-  python-template-prod:
-    image: python-template-prod:latest
-    container_name: python-template-prod
+  {{cookiecutter.project_name}}-prod:
+    image: {{cookiecutter.project_name}}-prod:latest
+    container_name: {{cookiecutter.project_name}}-prod
     build:
       context: .
       dockerfile: docker/Dockerfile
       target: production
     networks:
-      - python-template-network
+      - {{cookiecutter.project_name}}-network
     # ports:
     #   - 8080:8080
     command: ["tail", "-f", "/dev/null"] # NOTE: For testing the container

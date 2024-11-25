@@ -5,12 +5,12 @@ Adapted from: https://realpython.com/python-project-documentation-with-mkdocs/
 
 
 Examples:
-    >>> from python_template import placeholder
+    >>> from {{cookiecutter.project_slug}} import placeholder
     >>> placeholder.add(2, 4)
     6.0
     >>> placeholder.multiply(2.0, 4.0)
     8.0
-    >>> from python_template.placeholder import divide
+    >>> from {{cookiecutter.project_slug}}.placeholder import divide
     >>> divide(4.0, 2)
     2.0
 

@@ -32,7 +32,7 @@ repos:
   #       args: [requirements.in, -o, requirements.txt]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.7.1
+    rev: v0.8.0
     hooks:
       # Run the Ruff linter.
       - id: ruff
@@ -46,7 +46,7 @@ repos:
   #   rev: v0.991
   #   hooks:
   #     - id: mypy
-  #       files: python_template
+  #       files: {{cookiecutter.project_slug}}
   #       additional_dependencies: [types-PyYAML, rich]
   #       args: [
   #           "--strict",

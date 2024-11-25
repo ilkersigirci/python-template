@@ -5,7 +5,7 @@ import threading
 from pathlib import Path
 from typing import Optional
 
-from python_template.utils.general import is_module_installed
+from {{cookiecutter.project_slug}}.utils.general import is_module_installed
 
 PATHNAME_FIELD = "pathname"
 PATHNAME_MAX_LENGTH = 30

@@ -1,5 +1,5 @@
 {
-  "name": "python_template",
+  "name": "{{cookiecutter.project_slug}}",
   "dockerComposeFile": [
     "../docker-compose.yml",
     "docker-compose.yml"

@@ -3,4 +3,4 @@
 from importlib.metadata import version
 
 # Fetches the version of the package as defined in pyproject.toml
-__version__ = version("python_template")
+__version__ = version("{{cookiecutter.project_slug}}")
