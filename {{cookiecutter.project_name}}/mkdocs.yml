@@ -1,4 +1,4 @@
-site_name: Python Template
+site_name: {{cookiecutter.project_name}}
 site_dir: public
 site_url: https://github.com/ilkersigirci/{{cookiecutter.project_name}}
 # repo_url: https://gitlab.com/ilkersigirci/{{cookiecutter.project_name}} # # For GitLab

@@ -1,4 +1,4 @@
-"""Python template package."""
+"""{{cookiecutter.project_name}} package."""
 
 from importlib.metadata import version
 

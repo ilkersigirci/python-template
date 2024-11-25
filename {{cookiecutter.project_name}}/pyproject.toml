@@ -1,21 +1,21 @@
 [project]
 name = "{{cookiecutter.project_slug}}"
 version = "0.0.0"
-description = "Python Template"
+description = "{{cookiecutter.project_description}}"
 
 # NOTE: Overwrites .python-version
 requires-python = ">=3.11,<3.13"
 
 authors = [
-    {name = "template", email = "template@github.com"},
+    {name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}"},
 ]
 maintainers = [
-    {name = "template", email = "template@github.com"},
+    {name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}"},
 ]
 readme = "README.md"
 
 keywords = [
-    "template"
+    "{{cookiecutter.project_slug}}"
 ]
 
 classifiers = [
@@ -31,6 +31,7 @@ classifiers = [
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 dependencies = []

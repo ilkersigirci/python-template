@@ -1,4 +1,6 @@
-# Python Template
+# {{cookiecutter.project_name}}
+
+{{cookiecutter.project_description}}
 
 ## Project Structure
 
