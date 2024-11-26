@@ -43,6 +43,9 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
+extra_css:
+  - stylesheets/custom.css
+
 extra:
   social:
     - icon: fontawesome/brands/github
