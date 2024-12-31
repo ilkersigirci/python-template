@@ -3,7 +3,6 @@
 <p align="center">
   <img width="600" src="https://raw.githubusercontent.com/ilkersigirci/python-template/main/docs/static/logo.jpg">
 </p style = "margin-bottom: 2rem;">
----
 
 [![Doc Deploy status](https://img.shields.io/github/actions/workflow/status/ilkersigirci/python-template/doc_deploy.yml?branch=main)](https://github.com/ilkersigirci/python-template/actions/workflows/doc_deploy.yml?query=branch%3Amain)
 [![Supported Python versions](https://img.shields.io/badge/python-3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/ilkersigirci/python-template/blob/main/pyproject.toml)
