@@ -7,7 +7,7 @@
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/ilkersigirci/python-template/main.yml?branch=main)](https://github.com/ilkersigirci/python-template/actions/workflows/main.yml?query=branch%3Amain)
 [![Supported Python versions](https://img.shields.io/badge/python-3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/ilkersigirci/python-template/blob/main/pyproject.toml)
-[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://fpgmaas.github.io/cookiecutter-uv/)
+[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://ilkersigirci.github.io/python-template/)
 [![License](https://img.shields.io/github/license/ilkersigirci/python-template)](https://img.shields.io/github/license/ilkersigirci/python-template)
 
 ## Project Structure
