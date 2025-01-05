@@ -1,9 +1,8 @@
 [project]
 name = "{{cookiecutter.project_slug}}"
-version = "0.0.0"
+version = "0.0.1"
 description = "{{cookiecutter.project_description}}"
-
-# NOTE: Overwrites .python-version
+readme = "README.md"
 requires-python = ">=3.11,<3.13"
 
 authors = [
@@ -12,7 +11,6 @@ authors = [
 maintainers = [
     {name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}"},
 ]
-readme = "README.md"
 
 keywords = [
     "{{cookiecutter.project_slug}}"
@@ -40,7 +38,7 @@ dev = [
     "ipykernel>=6.29.5",
     "mypy>=1.13.0",
     "pre-commit>=4.0.1",
-    "ruff>=0.8.0",
+    "ruff>=0.8.6",
     # "scalene~=1.5.21.2",
 ]
 doc = [
@@ -151,8 +149,8 @@ unfixable = [
 
 #extend-select = []
 
-[tool.ruff.lint.flake8-import-conventions.extend-aliases]
-some_alias = ""
+# [tool.ruff.lint.flake8-import-conventions.extend-aliases]
+# some_alias = ""
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
