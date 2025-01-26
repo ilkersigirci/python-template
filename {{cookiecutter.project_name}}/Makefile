@@ -14,7 +14,7 @@ DOCKER_IMAGE={{cookiecutter.project_name}}
 DOCKER_TARGET=development
 
 
-.PHONY: help install test clean build publish doc pre-commit format lint profile
+.PHONY: help install test clean build publish pre-commit format lint profile
 .DEFAULT_GOAL=help
 
 help:
@@ -56,10 +56,7 @@ install-precommit: ## Install pre-commit hooks
 	uv run pre-commit install
 
 install-lint:
-	uv pip install ruff==0.8.0
-
-install-doc: ## Install mkdocs, mkdocs-material and mkdocstrings
-	uv pip install mkdocs mkdocs-material mkdocstrings[python]
+	uv pip install ruff==0.9.2
 
 update-dependencies: ## Updates the lockfiles and installs dependencies. Dependencies are updated if necessary
 	uv sync
@@ -90,10 +87,6 @@ test-coverage: ## Run all tests with coverage
 test-coverage-parallel:
 	uv lock --locked
 	uv run --module pytest -n auto --cov=${PACKAGE} --cov-report=html:coverage
-
-test-docs: ## Test documentation examples with doctest
-	uv lock --locked
-	uv run --module pytest --doctest-modules ${PACKAGE}
 
 test: clean-test test-all ## Cleans and runs all tests
 test-parallel: clean-test test-all-parallel ## Cleans and runs all tests with parallelization
@@ -133,6 +126,11 @@ publish: ## Builds the project and publish the package to Pypi
 	uv publish dist/*
 	# uv publish --publish-url https://test.pypi.org/legacy/ --username DUMMY --password DUMMY dist/*
 
+{% if cookiecutter.docs == 'y' -%}
+## Documentation related commands
+install-doc: ## Install mkdocs, mkdocs-material and mkdocstrings
+	uv pip install mkdocs mkdocs-material mkdocstrings[python]
+
 doc: ## Build documentation with mkdocs
 	uv run mkdocs build
 
@@ -141,6 +139,11 @@ doc-github: ## Build documentation with mkdocs and deploy to github pages
 
 doc-dev: ## Show documentation preview with mkdocs
 	uv run mkdocs serve -w ${PACKAGE}
+
+test-docs: ## Test documentation examples with doctest
+	uv lock --locked
+	uv run --module pytest --doctest-modules ${PACKAGE}
+{%- endif %}
 
 pre-commit-one: ## Run pre-commit with specific files
 	uv lock --locked
@@ -168,6 +171,8 @@ format: ## Run ruff for all package files. CHANGES CODE
 	uv run --module ruff format ${PACKAGE}
 	uv run --module ruff check ${PACKAGE} --fix --show-fixes
 
+{% if cookiecutter.mypy == 'y' -%}
+## Type checking related commands
 typecheck:  ## Checks code with mypy
 	uv lock --locked
 	uv run --module mypy --package ${PACKAGE}
@@ -180,6 +185,7 @@ typecheck-no-cache:  ## Checks code with mypy no cache
 typecheck-report: ## Checks code with mypy and generates html report
 	uv lock --locked
 	uv run --module mypy --package ${PACKAGE} --html-report mypy_report
+{%- endif %}
 
 # profile: ## Profile the file with scalene and shows the report in the terminal
 # 	uv lock --locked

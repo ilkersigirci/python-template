@@ -20,3 +20,10 @@ if __name__ == "__main__":
 
     if "{{cookiecutter.devcontainer}}" != "y":
         remove_dir(".devcontainer")
+
+    if "{{cookiecutter.docs}}" != "y":
+        remove_dir("docs")
+        remove_file("mkdocs.yml")
+
+        if "{{cookiecutter.git_remote_location}}" == "github":
+            remove_file(".github/workflows/doc.yml")

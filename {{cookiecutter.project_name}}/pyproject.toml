@@ -3,7 +3,7 @@ name = "{{cookiecutter.project_slug}}"
 version = "0.0.1"
 description = "{{cookiecutter.project_description}}"
 readme = "README.md"
-requires-python = ">=3.11,<3.13"
+requires-python = ">={{cookiecutter.python_version}}"
 
 authors = [
     {name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}"},
@@ -36,11 +36,14 @@ dependencies = []
 [dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
-    "mypy>=1.13.0",
     "pre-commit>=4.0.1",
-    "ruff>=0.8.6",
+    "ruff>=0.9.2",
     # "scalene~=1.5.21.2",
+{% if cookiecutter.mypy == 'y' -%}
+    "mypy>=1.13.0",
+{% endif %}
 ]
+{% if cookiecutter.docs == 'y' -%}
 doc = [
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.5.42",
@@ -48,6 +51,7 @@ doc = [
     # "mdx-include",
     # "mkdocs-markdownextradata-plugin",
 ]
+{% endif %}
 test = [
     "pytest-cov>=5.0.0",
     "pytest-rerunfailures>=14.0",
@@ -57,8 +61,11 @@ test = [
 ]
 
 [tool.uv]
+{% if cookiecutter.docs == 'y' -%}
 default-groups = ["dev", "doc", "test"]
-
+{% else -%}
+default-groups = ["dev", "test"]
+{% endif %}
 
 [tool.pytest.ini_options]
 minversion = "7.0.0"
@@ -120,7 +127,9 @@ select = [
     "B",  # flake8-bugbear
     "C",  # flake8-comprehensions
     "C9",  # mccabe
+{% if cookiecutter.docs == 'y' -%}
     "D",  # flake8-docstrings
+{% endif %}
     "E",  # pycodestyle errors (default)
     "F",  # pyflakes (default)
     "I",  # isort
@@ -152,8 +161,10 @@ unfixable = [
 # [tool.ruff.lint.flake8-import-conventions.extend-aliases]
 # some_alias = ""
 
+{% if cookiecutter.docs == 'y' -%}
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+{% endif %}
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
@@ -164,7 +175,7 @@ combine-as-imports = true
 # known-first-party = ["SomeLibrary"]
 # known-third-party = ["SomeLibrary"]
 
-# mypy section
+{% if cookiecutter.mypy == 'y' -%}
 # Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
 [tool.mypy]
 # python_version = "3.8"
@@ -179,6 +190,7 @@ show_error_codes = true
 module = "tests.*"
 ignore_missing_imports = true
 check_untyped_defs = true
+{% endif %}
 
 [tool.coverage.run]
 source = ['src/{{cookiecutter.project_slug}}']
@@ -201,7 +213,7 @@ exclude_lines = [
 # ]
 
 # [build-system]
-# requires = ["uv>=0.5.0,<1.0.0"]
+# requires = ["uv>=0.5.24,<1.0.0"]
 # build-backend = "uv._build_backend" # FIXME: Only builds source distribution, not wheel
 
 [build-system]
