@@ -31,9 +31,6 @@ doc-build: ## Test whether documentation can be built
 doc-serve: ## Build and serve the documentation
 	@uv run mkdocs serve
 
-doc-deploy-github: ## Build documentation with mkdocs and deploy to github pages
-	@uv run mkdocs gh-deploy --force
-
 create-example-project: ## Create and test a new project with the cookiecutter template
 	@rm -rf python-template-example || true
 	@uv run cookiecutter --no-input . --overwrite-if-exists \
@@ -45,6 +42,7 @@ create-example-project: ## Create and test a new project with the cookiecutter t
 		python_version=3.12 \
 		git_remote_location=github \
 		devcontainer=n \
+		package_publish=n \
 		docs=n \
 		mypy=n \
 		open_source_license="MIT license"

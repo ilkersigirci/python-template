@@ -14,7 +14,7 @@ DOCKER_IMAGE={{cookiecutter.project_name}}
 DOCKER_TARGET=development
 
 
-.PHONY: help install test clean build publish pre-commit format lint profile
+.PHONY: help install test clean publish pre-commit format lint profile
 .DEFAULT_GOAL=help
 
 help:
@@ -49,14 +49,8 @@ install-no-cache: ## Installs the development version of the package without cac
 	uv sync --frozen --no-cache
 	$(MAKE) install-precommit
 
-install-test: ## Install only test version of the package
-	uv sync --frozen --only-group test
-
 install-precommit: ## Install pre-commit hooks
 	uv run pre-commit install
-
-install-lint:
-	uv pip install ruff==0.9.2
 
 update-dependencies: ## Updates the lockfiles and installs dependencies. Dependencies are updated if necessary
 	uv sync
@@ -113,7 +107,8 @@ clean-test: ## Clean test related files left after test
 
 clean: clean-build clean-test ## Cleans build and test related files
 
-build: ## Make Python source distribution
+{% if cookiecutter.package_publish == 'y' -%}
+build-sdist: ## Make Python source distribution
 	$(MAKE) clean-build
 	uv build --sdist --out-dir dist
 
@@ -122,22 +117,17 @@ build-wheel: ## Make Python wheel distribution
 	uv build --wheel --out-dir dist
 
 publish: ## Builds the project and publish the package to Pypi
-	# $(MAKE) build
+	# $(MAKE) build-sdist
 	uv publish dist/*
 	# uv publish --publish-url https://test.pypi.org/legacy/ --username DUMMY --password DUMMY dist/*
+{%- endif %}
 
 {% if cookiecutter.docs == 'y' -%}
 ## Documentation related commands
-install-doc: ## Install mkdocs, mkdocs-material and mkdocstrings
-	uv pip install mkdocs mkdocs-material mkdocstrings[python]
+doc-build: ## Build documentation with mkdocs
+	uv run mkdocs build -s
 
-doc: ## Build documentation with mkdocs
-	uv run mkdocs build
-
-doc-github: ## Build documentation with mkdocs and deploy to github pages
-	uv run mkdocs gh-deploy --force
-
-doc-dev: ## Show documentation preview with mkdocs
+doc-serve: ## Show documentation preview with mkdocs
 	uv run mkdocs serve -w ${PACKAGE}
 
 test-docs: ## Test documentation examples with doctest
@@ -160,6 +150,9 @@ lint: ## Lint code with ruff
 	uv lock --locked
 	uv run --module ruff format ${PACKAGE} --check --diff
 	uv run --module ruff check ${PACKAGE}
+
+lint-statistics: # Lint code with all ruff rules and show statistics
+	uv run --module ruff check ${PACKAGE} --select ALL --statistics
 
 lint-report: ## Lint report for gitlab
 	uv lock --locked
