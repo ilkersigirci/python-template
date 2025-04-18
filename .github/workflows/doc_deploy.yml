@@ -20,7 +20,7 @@ jobs:
 
       - name: Install the Project with Test Dependencies
         run: |
-          uv sync --frozen --only-group doc
+          uv sync --frozen
 
       - name: Deploy the documentation to GitHub Pages
         run: |
