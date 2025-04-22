@@ -11,10 +11,15 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
-      - name: Set up the project
-        uses: ./.github/actions/setup-project
+      - uses: actions/checkout@v4
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install the Project with Test Dependencies
+        run: |
+          uv sync --frozen
+
       - name: Test the doc build
         run: |
           make doc-build
