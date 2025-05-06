@@ -29,4 +29,5 @@
     "notebook.source.organizeImports": "explicit",
   },
   "evenBetterToml.formatter.reorderKeys": true,
+  "chat.promptFiles": true,
 }
