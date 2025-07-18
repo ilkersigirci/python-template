@@ -22,7 +22,7 @@ repos:
         args: ["--maxkb=1000"]
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.14
+    rev: 0.8.0
     hooks:
       # Update the uv lockfile
       - id: uv-lock
