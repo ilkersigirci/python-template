@@ -14,6 +14,9 @@ help:
 install-uv: ## Install uv
 	! command -v uv &> /dev/null && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="~/.local/bin" sh
 
+install-precommit: ## Install pre-commit hooks
+	uv run pre-commit install
+
 update-uv: ## Update uv to the latest version
 	@uv self update
 
@@ -24,6 +27,11 @@ install: ## Installs the development version of the package
 	$(MAKE) install-uv
 	$(MAKE) update-uv
 	@uv sync --frozen
+	$(MAKE) install-precommit
+
+pre-commit: ## Run pre-commit for all package files
+	uv lock --locked
+	uv run pre-commit run --all-files
 
 doc-build: ## Test whether documentation can be built
 	@uv run mkdocs build -s
