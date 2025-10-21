@@ -1,0 +1,25 @@
+name: Cookiecutter Template Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  cookiecutter-test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install the Project with Dependencies
+        run: |
+          uv sync --frozen
+
+      - name: Run cookiecutter tests
+        run: |
+          uv run pytest tests/test_cookiecutter.py -v

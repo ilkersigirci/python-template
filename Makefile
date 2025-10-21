@@ -49,8 +49,12 @@ create-example-project: ## Create and test a new project with the cookiecutter t
 		project_slug=python_template_example \
 		python_version=3.12 \
 		git_remote_location=github \
+		open_source_license="MIT license"
 		devcontainer=n \
 		package_publish=n \
 		docs=n \
 		mypy=n \
-		open_source_license="MIT license"
+
+test-cookicutter: ## Run cookiecutter tests
+	uv lock --locked
+	uv run pytest tests/test_cookiecutter.py -v
