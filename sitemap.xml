@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://github.com/ilkersigirci/python-template/</loc>
+         <lastmod>2025-10-21</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/ilkersigirci/python-template/tutorials/docker/</loc>
+         <lastmod>2025-10-21</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/ilkersigirci/python-template/tutorials/ide-settings/</loc>
+         <lastmod>2025-10-21</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/ilkersigirci/python-template/tutorials/makefile/</loc>
+         <lastmod>2025-10-21</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/ilkersigirci/python-template/tutorials/uv/</loc>
+         <lastmod>2025-10-21</lastmod>
+    </url>
+</urlset>
