@@ -13,21 +13,22 @@ def remove_dir(filepath: str) -> None:
 
 
 if __name__ == "__main__":
-    if "{{cookiecutter.git_remote_location}}" == "gitlab":
-        remove_dir(".github")
-    elif "{{cookiecutter.git_remote_location}}" == "github":
+    if "{{cookiecutter.git_remote_location}}" == "github":
         remove_file(".gitlab-ci.yml")
+
+        if "{{cookiecutter.package_publish}}" != "y":
+            remove_file(".github/workflows/package.yml")
+
+        if "{{cookiecutter.docs}}" != "y":
+            remove_file(".github/workflows/doc_deploy.yml")
+            remove_file(".github/workflows/doc_test.yml")
+
+    elif "{{cookiecutter.git_remote_location}}" == "gitlab":
+        remove_dir(".github")
 
     if "{{cookiecutter.devcontainer}}" != "y":
         remove_dir(".devcontainer")
 
-    if "{{cookiecutter.package_publish}}" != "y":
-        remove_file(".github/workflows/package.yml")
-
     if "{{cookiecutter.docs}}" != "y":
         remove_dir("docs")
         remove_file("mkdocs.yml")
-
-        if "{{cookiecutter.git_remote_location}}" == "github":
-            remove_file(".github/workflows/doc_deploy.yml")
-            remove_file(".github/workflows/doc_test.yml")
