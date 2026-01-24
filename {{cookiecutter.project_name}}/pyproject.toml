@@ -38,7 +38,7 @@ dependencies = []
 dev = [
     "ipykernel>=6.29.5",
     "pre-commit>=4.0.1",
-    "ruff>=0.12.4",
+    "ruff>=0.14.14",
     # "scalene~=1.5.21.2",
 {% if cookiecutter.mypy == 'y' -%}
     "mypy>=1.13.0",
@@ -214,5 +214,5 @@ exclude_lines = [
 # ]
 
 [build-system]
-requires = ["uv_build>=0.8.0,<0.9"]
+requires = ["uv_build>=0.9,<0.14"]
 build-backend = "uv_build"
