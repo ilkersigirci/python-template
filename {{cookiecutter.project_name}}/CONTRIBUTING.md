@@ -68,10 +68,10 @@ Then, install and activate the environment with:
 uv sync
 ```
 
-4. Install pre-commit to run linters/formatters at commit time:
+4. Install prek and git hooks to run checks at commit time:
 
 ```bash
-uv run pre-commit install
+make install-prek
 ```
 
 5. Create a branch for local development:
@@ -84,10 +84,10 @@ Now you can make your changes locally.
 
 6. Don't forget to add test cases for your added functionality to the `tests` directory.
 
-7. When you're done making changes, check that your changes pass the formatting tests.
+7. When you're done making changes, run all hooks locally.
 
 ```bash
-make check
+make prek
 ```
 
 Now, validate that all unit tests are passing:

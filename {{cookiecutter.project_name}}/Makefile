@@ -8,13 +8,14 @@ DOC_DIR=./docs
 TEST_DIR=./tests
 TEST_MARKER=placeholder
 TEST_OUTPUT_DIR=tests_outputs
-PRECOMMIT_FILE_PATHS=./{{cookiecutter.project_slug}}/__init__.py
+PREK=uv tool run prek
+PREK_FILE_PATHS=${PACKAGE}/__init__.py
 PROFILE_FILE_PATH=./{{cookiecutter.project_slug}}/__init__.py
 DOCKER_IMAGE={{cookiecutter.project_name}}
 DOCKER_TARGET=development
 
 
-.PHONY: help install test clean publish pre-commit format lint profile
+.PHONY: help install install-prek test clean publish prek prek-one prek-clean lint lint-statistics lint-report format profile
 .DEFAULT_GOAL=help
 
 help:
@@ -41,16 +42,17 @@ install: ## Installs the development version of the package
 	$(MAKE) install-uv
 	$(MAKE) update-uv
 	uv sync --frozen
-	$(MAKE) install-precommit
+	$(MAKE) install-prek
 
 install-no-cache: ## Installs the development version of the package without cache
 	$(MAKE) install-uv
 	$(MAKE) update-uv
 	uv sync --frozen --no-cache
-	$(MAKE) install-precommit
+	$(MAKE) install-prek
 
-install-precommit: ## Install pre-commit hooks
-	uv run pre-commit install
+install-prek: ## Install prek and git hooks
+	uv tool install --force prek
+	$(PREK) install -f
 
 update-dependencies: ## Updates the lockfiles and installs dependencies. Dependencies are updated if necessary
 	uv sync
@@ -135,23 +137,23 @@ test-docs: ## Test documentation examples with doctest
 	uv run --module pytest --doctest-modules ${PACKAGE}
 {%- endif %}
 
-pre-commit-one: ## Run pre-commit with specific files
+prek-one: ## Run prek with specific files
 	uv lock --locked
-	uv run pre-commit run --files ${PRECOMMIT_FILE_PATHS}
+	$(PREK) run --files ${PREK_FILE_PATHS} --config .pre-commit-config.yaml
 
-pre-commit: ## Run pre-commit for all package files
+prek: ## Run prek for all package files
 	uv lock --locked
-	uv run pre-commit run --all-files
+	$(PREK) run --all-files --config .pre-commit-config.yaml
 
-pre-commit-clean: ## Clean pre-commit cache
-	uv run pre-commit clean
+prek-clean: ## Clean prek cache
+	$(PREK) cache clean --config .pre-commit-config.yaml
 
 lint: ## Lint code with ruff
 	uv lock --locked
 	uv run --module ruff format ${PACKAGE} --check --diff
 	uv run --module ruff check ${PACKAGE}
 
-lint-statistics: # Lint code with all ruff rules and show statistics
+lint-statistics: ## Lint code with all ruff rules and show statistics
 	uv run --module ruff check ${PACKAGE} --select ALL --statistics
 
 lint-report: ## Lint report for gitlab

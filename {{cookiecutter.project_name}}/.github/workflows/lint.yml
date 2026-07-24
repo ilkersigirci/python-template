@@ -15,10 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint Dependency Installation
-        uses: astral-sh/ruff-action@v3
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install prek
+        run: uv tool install --force prek
+
+      - name: Load Cached Prek Dependencies
+        id: cached-prek-dependencies
+        uses: actions/cache@v4
         with:
-          src: ./src/{{cookiecutter.project_slug}}
-      - run: ruff format --check --diff
-      - run: ruff check
+          path: ~/.cache/prek/
+          key: prek|${{ runner.os }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Run prek hooks
+        run: |
+          uv tool run prek run --show-diff-on-failure --color=always --all-files --config .pre-commit-config.yaml
 #{% endraw %}

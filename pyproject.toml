@@ -12,12 +12,9 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "pre-commit>=4.0.1",
-]
 test = [
     "pytest>=8.4.2",
 ]
 
 [tool.uv]
-default-groups = ["dev", "test"]
+default-groups = ["test"]

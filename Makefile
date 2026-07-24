@@ -2,8 +2,9 @@
 # chain commands together with semicolon
 .ONESHELL:
 SHELL=/bin/bash
+PREK=uv tool run prek
 
-.PHONY: install
+.PHONY: install install-prek prek
 .DEFAULT_GOAL=help
 
 help:
@@ -14,8 +15,9 @@ help:
 install-uv: ## Install uv
 	! command -v uv &> /dev/null && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="~/.local/bin" sh
 
-install-precommit: ## Install pre-commit hooks
-	uv run pre-commit install
+install-prek: ## Install prek and git hooks
+	uv tool install --force prek
+	$(PREK) install -f
 
 update-uv: ## Update uv to the latest version
 	@uv self update
@@ -27,11 +29,11 @@ install: ## Installs the development version of the package
 	$(MAKE) install-uv
 	$(MAKE) update-uv
 	@uv sync --frozen
-	$(MAKE) install-precommit
+	$(MAKE) install-prek
 
-pre-commit: ## Run pre-commit for all package files
+prek: ## Run prek hooks for all package files
 	uv lock --locked
-	uv run pre-commit run --all-files
+	$(PREK) run --all-files --config .pre-commit-config.yaml
 
 doc-build: ## Test whether documentation can be built
 	@uv run mkdocs build -s

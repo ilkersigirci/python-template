@@ -14,11 +14,11 @@ make -s test-one TEST_MARKER=<TEST_MARKER>
 # Remove unnecessary files such as build,test, cache
 make -s clean
 
-# Run all pre-commit hooks
-make -s pre-commit
+# Install prek and git hooks (once)
+make -s install-prek
 
-# Lint the project
-make -s lint
+# Run all hooks (lint + format + checks)
+make -s prek
 
 # Profile a file
 make -s profile PROFILE_FILE_PATH=<PATH_TO_FILE>
