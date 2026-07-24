@@ -1,6 +1,7 @@
 """Tests for cookiecutter template generation with different configurations."""
 
 import json
+import tomllib
 from itertools import product
 from pathlib import Path
 
@@ -37,11 +38,11 @@ def test_root_renovate_scaffold_dependencies_use_bump_strategy(template_dir):
 
 
 @pytest.mark.parametrize(
-    "devcontainer,package_publish,docs,mypy",
+    "devcontainer,package_publish,docs,ty",
     _COMBINATIONS,
 )
 def test_cookiecutter_template_combinations(
-    template_dir, output_dir, devcontainer, package_publish, docs, mypy
+    template_dir, output_dir, devcontainer, package_publish, docs, ty
 ):
     """Test that the cookiecutter template works with all combinations of yes/no options."""
     project_dir = cookiecutter(
@@ -61,7 +62,7 @@ def test_cookiecutter_template_combinations(
             "package_publish": package_publish,
             "docs": docs,
             "renovate": "n",
-            "mypy": mypy,
+            "ty": ty,
             "open_source_license": "MIT license",
         },
     )
@@ -73,6 +74,8 @@ def test_cookiecutter_template_combinations(
     assert (project_path / "pyproject.toml").exists(), "pyproject.toml was not created"
     assert (project_path / "README.md").exists(), "README.md was not created"
     assert (project_path / "src").exists(), "src directory was not created"
+    with (project_path / "pyproject.toml").open("rb") as pyproject_file:
+        tomllib.load(pyproject_file)
 
     # Verify git_remote_location hook (always github in this test)
     github_dir = project_path / ".github"
@@ -131,8 +134,10 @@ def test_cookiecutter_template_combinations(
         )
         assert not doc_test_workflow.exists(), "doc_test.yml should not exist but does"
 
-    # Verify mypy in pyproject.toml
+    # Verify ty integration.
     pyproject_content = (project_path / "pyproject.toml").read_text()
+    makefile_content = (project_path / "Makefile").read_text()
+    pre_commit_content = (project_path / ".pre-commit-config.yaml").read_text()
     readme_content = (project_path / "README.md").read_text()
     if docs == "y":
         assert '"zensical>=0.0.11"' in pyproject_content
@@ -145,14 +150,11 @@ def test_cookiecutter_template_combinations(
         assert "Zensical" not in readme_content
         assert "make -s doc-build" not in readme_content
 
-    if mypy == "y":
-        assert "mypy" in pyproject_content, "mypy should be in dependencies"
-        assert "[tool.mypy]" in pyproject_content, "mypy configuration should exist"
-    else:
-        assert "[tool.mypy]" not in pyproject_content, (
-            "mypy configuration should not exist"
-        )
-
+    ty_enabled = ty == "y"
+    assert ('"ty>=' in pyproject_content) is ty_enabled
+    assert ("[tool.ty.src]" in pyproject_content) is ty_enabled
+    assert ("type-check:" in makefile_content) is ty_enabled
+    assert ("astral-sh/ty-pre-commit" in pre_commit_content) is ty_enabled
 
 @pytest.mark.parametrize(
     "git_remote,renovate",
@@ -177,7 +179,7 @@ def test_renovate_generation(template_dir, output_dir, git_remote, renovate):
             "package_publish": "y",
             "docs": "y",
             "renovate": renovate,
-            "mypy": "y",
+            "ty": "y",
             "open_source_license": "MIT license",
         },
     )

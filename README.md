@@ -13,6 +13,7 @@
 
 - It uses [cookiecutter](https://github.com/cookiecutter/cookiecutter) for project templating.
 - It uses [uv](https://github.com/astral-sh/uv) for python dependency operations and virtual environment management.
+- It can use [ty](https://docs.astral.sh/ty/) for type checking.
 - It uses [Zensical](https://zensical.org/) for a modern documentation site and automated documentation publishing.
 - It uses `src` layout, which is the recommended layout for python projects to avoid common [pitfalls](https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure).
 - It uses `project.toml` instead of `setup.py` and `setup.cfg`. The reasoning is following:

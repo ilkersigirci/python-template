@@ -21,7 +21,7 @@ The module contains the following functions:
 """
 
 
-def add(a: float | int, b: float | int) -> float:
+def add(a: float, b: float) -> float:
     """Compute and return the sum of two numbers.
 
     Examples:
@@ -40,7 +40,7 @@ def add(a: float | int, b: float | int) -> float:
     return float(a + b)
 
 
-def subtract(a: float | int, b: float | int) -> float:
+def subtract(a: float, b: float) -> float:
     """Compute and return the substaction of two numbers.
 
     Examples:
@@ -59,7 +59,7 @@ def subtract(a: float | int, b: float | int) -> float:
     return float(a - b)
 
 
-def multiply(a: float | int, b: float | int) -> float:
+def multiply(a: float, b: float) -> float:
     """Compute and return the multiplication of two numbers.
 
     Examples:
@@ -78,7 +78,7 @@ def multiply(a: float | int, b: float | int) -> float:
     return float(a * b)
 
 
-def divide(a: float | int, b: float | int) -> float:
+def divide(a: float, b: float) -> float:
     """Compute and return the division of two numbers.
 
     Examples:

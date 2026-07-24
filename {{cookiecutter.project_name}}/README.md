@@ -5,6 +5,9 @@
 ## Project Structure
 
 - It uses [uv](https://github.com/astral-sh/uv) for python dependency operations and virtual environment management.
+{% if cookiecutter.ty == 'y' -%}
+- It uses [ty](https://docs.astral.sh/ty/) for type checking.
+{% endif -%}
 {% if cookiecutter.docs == 'y' -%}
 - It uses [Zensical](https://zensical.org/) for a modern documentation site and automated documentation publishing.
 {% endif -%}
@@ -146,6 +149,11 @@ make -s install-prek
 # Run all hooks (lint + format + checks)
 make -s prek
 
+{% if cookiecutter.ty == 'y' -%}
+# Type-check the package
+make -s type-check
+
+{% endif -%}
 {% if cookiecutter.docs == 'y' -%}
 # Preview the Zensical documentation site
 make -s doc-serve

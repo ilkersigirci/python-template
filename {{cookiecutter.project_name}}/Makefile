@@ -96,7 +96,6 @@ clean-build: ## Clean build dist and egg directories left after install
 	find . -type d -name '*.egg-info' -prune -exec rm -rf {} \;
 	find . -type d -name '__pycache__' -prune -exec rm -rf {} \;
 	find . -type d -name '.ruff_cache' -prune -exec rm -rf {} \;
-	find . -type d -name '.mypy_cache' -prune -exec rm -rf {} \;
 
 clean-test: ## Clean test related files left after test
 	# rm -rf ./htmlcov
@@ -166,20 +165,11 @@ format: ## Run ruff for all package files. CHANGES CODE
 	uv run --module ruff format ${PACKAGE}
 	uv run --module ruff check ${PACKAGE} --fix --show-fixes
 
-{% if cookiecutter.mypy == 'y' -%}
+{% if cookiecutter.ty == 'y' -%}
 ## Type checking related commands
-typecheck:  ## Checks code with mypy
+type-check: ## Run ty for type checking
 	uv lock --locked
-	uv run --module mypy --package ${PACKAGE}
-	# MYPYPATH=src uv run --module mypy --package ${PACKAGE}
-
-typecheck-no-cache:  ## Checks code with mypy no cache
-	uv lock --locked
-	uv run --module mypy --package ${PACKAGE} --no-incremental
-
-typecheck-report: ## Checks code with mypy and generates html report
-	uv lock --locked
-	uv run --module mypy --package ${PACKAGE} --html-report mypy_report
+	uv run ty check
 {%- endif %}
 
 # profile: ## Profile the file with scalene and shows the report in the terminal

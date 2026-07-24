@@ -13,7 +13,9 @@
       },
     ],
   },
+{% if cookiecutter.ty == 'y' -%}
   "python.languageServer": "None",
+{% endif %}
   // "python.analysis.autoImportCompletions": true,
   "ruff.nativeServer": "on",
   "autoDocstring.generateDocstringOnEnter": true,
