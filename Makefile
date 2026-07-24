@@ -36,26 +36,26 @@ prek: ## Run prek hooks for all package files
 	$(PREK) run --all-files --config .pre-commit-config.yaml
 
 doc-build: ## Test whether documentation can be built
-	@uv run mkdocs build -s
+	@uv run zensical build --clean --strict
 
 doc-serve: ## Build and serve the documentation
-	@uv run mkdocs serve
+	@uv run zensical serve --dev-addr 0.0.0.0:7999
 
 create-example-project: ## Create and test a new project with the cookiecutter template
 	@rm -rf python-template-example || true
 	@uv run cookiecutter --no-input . --overwrite-if-exists \
 		author="İlker SIĞIRCI" \
 		email="sigirci.ilker@gmail.com" \
-		github_author_handle=ilkersigirci \
+		author_github_handle=ilkersigirci \
 		project_name=python-template-example \
 		project_slug=python_template_example \
 		python_version=3.12 \
 		git_remote_location=github \
-		open_source_license="MIT license"
+		open_source_license="MIT license" \
 		devcontainer=n \
 		package_publish=n \
 		docs=n \
-		mypy=n \
+		mypy=n
 
 test-cookicutter: ## Run cookiecutter tests
 	uv lock --locked

@@ -228,8 +228,8 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
+# Zensical documentation
+/public/
 
 # mypy
 .mypy_cache/
@@ -266,7 +266,6 @@ cython_debug/
 # Custom ignores
 
 /.ruff_cache/
-public
 
 # Scalene related
 profile.*

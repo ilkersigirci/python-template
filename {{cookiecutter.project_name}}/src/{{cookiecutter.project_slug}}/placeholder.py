@@ -1,8 +1,6 @@
 """Placeholder file to provide several sample math calculations.
 
 This module allows the user to make mathematical calculations.
-Adapted from: https://realpython.com/python-project-documentation-with-mkdocs/
-
 
 Examples:
     >>> from {{cookiecutter.project_slug}} import placeholder

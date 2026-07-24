@@ -95,19 +95,22 @@ def test_cookiecutter_template_combinations(
         )
 
     # Verify docs hook
-    mkdocs_yml = project_path / "mkdocs.yml"
+    zensical_toml = project_path / "zensical.toml"
     docs_dir = project_path / "docs"
     doc_deploy_workflow = project_path / ".github" / "workflows" / "doc_deploy.yml"
     doc_test_workflow = project_path / ".github" / "workflows" / "doc_test.yml"
 
     if docs == "y":
-        assert mkdocs_yml.exists(), "mkdocs.yml should exist but doesn't"
+        assert zensical_toml.exists(), "zensical.toml should exist but doesn't"
         assert docs_dir.exists(), "docs directory should exist but doesn't"
+        zensical_content = zensical_toml.read_text()
+        assert 'variant = "modern"' in zensical_content
+        assert 'site_dir = "public"' in zensical_content
         # For github, doc workflows should exist
         assert doc_deploy_workflow.exists(), "doc_deploy.yml should exist but doesn't"
         assert doc_test_workflow.exists(), "doc_test.yml should exist but doesn't"
     else:
-        assert not mkdocs_yml.exists(), "mkdocs.yml should not exist but does"
+        assert not zensical_toml.exists(), "zensical.toml should not exist but does"
         assert not docs_dir.exists(), "docs directory should not exist but does"
         # For github with docs=n, doc workflows should be removed
         assert not doc_deploy_workflow.exists(), (
@@ -117,6 +120,18 @@ def test_cookiecutter_template_combinations(
 
     # Verify mypy in pyproject.toml
     pyproject_content = (project_path / "pyproject.toml").read_text()
+    readme_content = (project_path / "README.md").read_text()
+    if docs == "y":
+        assert '"zensical>=0.0.11"' in pyproject_content
+        assert '"mkdocstrings-python>=2.0.0"' in pyproject_content
+        assert "Zensical" in readme_content
+        assert "make -s doc-build" in readme_content
+    else:
+        assert '"zensical' not in pyproject_content
+        assert '"mkdocstrings-python' not in pyproject_content
+        assert "Zensical" not in readme_content
+        assert "make -s doc-build" not in readme_content
+
     if mypy == "y":
         assert "mypy" in pyproject_content, "mypy should be in dependencies"
         assert "[tool.mypy]" in pyproject_content, "mypy configuration should exist"

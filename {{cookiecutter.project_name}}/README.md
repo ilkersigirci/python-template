@@ -5,6 +5,9 @@
 ## Project Structure
 
 - It uses [uv](https://github.com/astral-sh/uv) for python dependency operations and virtual environment management.
+{% if cookiecutter.docs == 'y' -%}
+- It uses [Zensical](https://zensical.org/) for a modern documentation site and automated documentation publishing.
+{% endif -%}
 - It uses `src` layout, which is the recommended layout for python projects to avoid common [pitfalls](https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure).
 - It uses `project.toml` instead of `setup.py` and `setup.cfg`. The reasoning is following:
     - As [official setuptools guide](https://github.com/pypa/setuptools/blob/main/docs/userguide/quickstart.rst) says, " configuring new projects via setup.py is discouraged"
@@ -119,6 +122,14 @@ make -s install-prek
 # Run all hooks (lint + format + checks)
 make -s prek
 
+{% if cookiecutter.docs == 'y' -%}
+# Preview the Zensical documentation site
+make -s doc-serve
+
+# Run a clean, strict documentation build
+make -s doc-build
+
+{% endif -%}
 # Profile a file
 make -s profile PROFILE_FILE_PATH=<PATH_TO_FILE>
 ```

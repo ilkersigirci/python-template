@@ -31,4 +31,4 @@ if __name__ == "__main__":
 
     if "{{cookiecutter.docs}}" != "y":
         remove_dir("docs")
-        remove_file("mkdocs.yml")
+        remove_file("zensical.toml")

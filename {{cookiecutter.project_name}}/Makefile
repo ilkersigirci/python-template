@@ -126,11 +126,11 @@ publish: ## Builds the project and publish the package to Pypi
 
 {% if cookiecutter.docs == 'y' -%}
 ## Documentation related commands
-doc-build: ## Build documentation with mkdocs
-	uv run mkdocs build -s
+doc-build: ## Test whether documentation can be built
+	uv run zensical build --clean --strict
 
-doc-serve: ## Show documentation preview with mkdocs
-	uv run mkdocs serve -w ${PACKAGE}
+doc-serve: ## Build and serve the documentation
+	uv run zensical serve --dev-addr 0.0.0.0:7999
 
 test-docs: ## Test documentation examples with doctest
 	uv lock --locked
