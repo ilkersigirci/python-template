@@ -56,7 +56,7 @@ create-example-project: ## Create and test a new project with the cookiecutter t
 		package_publish=n \
 		docs=n \
 		renovate=y \
-		mypy=n
+		ty=n
 
 test-cookicutter: ## Run cookiecutter tests
 	uv lock --locked

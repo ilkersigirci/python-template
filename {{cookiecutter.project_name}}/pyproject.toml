@@ -37,10 +37,10 @@ dependencies = []
 [dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
-    "ruff>=0.14.14",
+    "ruff>=0.16.0",
     # "scalene~=1.5.21.2",
-{% if cookiecutter.mypy == 'y' -%}
-    "mypy>=1.13.0",
+{% if cookiecutter.ty == 'y' -%}
+    "ty>=0.0.63",
 {% endif %}
 ]
 {% if cookiecutter.docs == 'y' -%}
@@ -103,6 +103,9 @@ extend-exclude = [
 # Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402", "F401"]
+"src/{{cookiecutter.project_slug}}/loggers/filters.py" = ["PLC0415"]
+"src/{{cookiecutter.project_slug}}/loggers/setup.py" = ["T201"]
+"src/{{cookiecutter.project_slug}}/scripts/placeholder.py" = ["T201"]
 # "*.ipynb" = ["E501"]  # disable line-too-long in notebooks
 
 # "path/to/file.py" = ["E402"]
@@ -120,7 +123,14 @@ skip-magic-trailing-comma = false
 
 [tool.ruff.lint]
 
+{% if cookiecutter.ty == 'y' -%}
+preview = true
+explicit-preview-rules = true
+{% endif %}
 select = [
+{% if cookiecutter.ty == 'y' -%}
+    "ANN", # flake8-annotations
+{% endif %}
     "B",  # flake8-bugbear
     "C",  # flake8-comprehensions
     "C9",  # mccabe
@@ -134,6 +144,9 @@ select = [
     "PIE", # pie
     "PL",  # pylint
     "PTH", # pathlib
+{% if cookiecutter.ty == 'y' -%}
+    "PYI", # flake8-pyi
+{% endif %}
     "Q",  # flake8-quotes
     "RET", # return
     "RUF", # Enable all ruff-specific checks
@@ -172,21 +185,18 @@ combine-as-imports = true
 # known-first-party = ["SomeLibrary"]
 # known-third-party = ["SomeLibrary"]
 
-{% if cookiecutter.mypy == 'y' -%}
-# Read more here: https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml-file
-[tool.mypy]
-# python_version = "3.8"
-files = ["src/{{cookiecutter.project_slug}}"]
-# exclude = ['^tests/']
-strict = true
-show_error_codes = true
-# ignore_missing_imports = true
+{% if cookiecutter.ty == 'y' -%}
+# https://docs.astral.sh/ty/reference/configuration/
+[tool.ty.src]
+include = ["src/{{cookiecutter.project_slug}}"]
 
-# TODO: Check whether this is working
-[[tool.mypy.overrides]]
-module = "tests.*"
-ignore_missing_imports = true
-check_untyped_defs = true
+[tool.ty.rules]
+missing-type-argument = "error"
+possibly-unresolved-reference = "warn"
+
+[tool.ty.analysis]
+# click is an optional integration imported only after a runtime availability check.
+allowed-unresolved-imports = ["click"]
 {% endif %}
 
 [tool.coverage.run]

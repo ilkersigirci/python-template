@@ -20,6 +20,9 @@ make -s install-prek
 # Run all hooks (lint + format + checks)
 make -s prek
 
+# Type-check the package (when ty was selected during project generation)
+make -s type-check
+
 # Preview the Zensical documentation site
 make -s doc-serve
 

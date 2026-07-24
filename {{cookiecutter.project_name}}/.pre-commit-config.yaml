@@ -28,24 +28,18 @@ repos:
       - id: uv-lock
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.16.0
     hooks:
       # Run the Ruff linter.
-      - id: ruff
+      - id: ruff-check
         args: [--exit-non-zero-on-fix, --config=pyproject.toml]
       # Run the Ruff formatter.
       - id: ruff-format
         args: [--config=pyproject.toml]
 
-  # NOTE: It doesn't use pyproject.toml configs. We might enable it the future.
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v0.991
-  #   hooks:
-  #     - id: mypy
-  #       files: {{cookiecutter.project_slug}}
-  #       additional_dependencies: [types-PyYAML, rich]
-  #       args: [
-  #           "--strict",
-  #           # "--config-file=pyproject.toml",
-  #           # "--ignore-missing-imports",
-  #         ]
+{% if cookiecutter.ty == 'y' %}
+  - repo: https://github.com/astral-sh/ty-pre-commit
+    rev: v0.0.63
+    hooks:
+      - id: ty
+{% endif %}

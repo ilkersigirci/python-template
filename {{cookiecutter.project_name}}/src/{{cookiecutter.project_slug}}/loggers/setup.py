@@ -2,6 +2,7 @@
 
 import logging
 import logging.config
+from typing import Any
 
 from {{cookiecutter.project_slug}}.loggers.configs.default import DEFAULT_LOGGER_CONFIG
 
@@ -9,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_logging(
-    logging_config: dict | None = None,
+    logging_config: dict[str, Any] | None = None,
     default_level: int = logging.INFO,
 ) -> None:
     """Set up the logger using default or custom configuration.
@@ -24,7 +25,7 @@ def setup_logging(
         logging.config.dictConfig(loaded_config)
     except Exception as e:
         message = f"Error when loading given logging configuration. Using default configs. Error: {e}"
-        print(message)  # noqa: T201
+        print(message)
         logging.basicConfig(level=default_level)
 
 
@@ -38,6 +39,6 @@ if __name__ == "__main__":
     logger.critical("This is a critical message")
 
     try:
-        print(1 / 0)  # noqa: T201
+        print(1 / 0)
     except Exception:
         logger.exception("unable print!")
