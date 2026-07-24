@@ -23,7 +23,7 @@ variables:
   stage: lint
   interruptible: true
   image:
-    name: ghcr.io/astral-sh/ruff:0.14.14-alpine
+    name: ghcr.io/astral-sh/ruff:0.16.0-alpine@sha256:bd33fc571599334c434ea116613df9e4be0aafa21e856cb466f7a0be3dd2c94d
   before_script:
     - cd $CI_PROJECT_DIR
     - ruff --version
