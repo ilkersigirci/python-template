@@ -13,6 +13,10 @@ def remove_dir(filepath: str) -> None:
 
 
 if __name__ == "__main__":
+    if "{{cookiecutter.renovate}}" != "y":
+        remove_file("renovate.json")
+        remove_file(".github/workflows/renovate.yml")
+
     if "{{cookiecutter.git_remote_location}}" == "github":
         remove_file(".gitlab-ci.yml")
 

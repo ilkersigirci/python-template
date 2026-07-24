@@ -35,6 +35,30 @@ make -s install
 
 - After running above command, the project installed in editable mode with all development and test dependencies installed.
 
+{% if cookiecutter.renovate == 'y' -%}
+## Renovate
+
+{% if cookiecutter.git_remote_location == 'github' -%}
+Renovate checks the project's Python dependencies and GitHub Actions on
+weekdays. To authorize the workflow, add a repository secret named
+`RENOVATE_TOKEN` containing a classic personal access token with the `repo` and
+`workflow` scopes. For a token limited to public repositories, use the
+`public_repo` scope instead of the full `repo` scope.
+{% elif cookiecutter.git_remote_location == 'gitlab' -%}
+Renovate checks the project's Python dependencies and GitLab CI dependencies.
+To authorize the pipeline:
+
+1. Add a masked, hidden, and protected CI/CD variable named `RENOVATE_TOKEN`.
+   Use a project, group, or personal access token with the `api` scope and at
+   least the Developer role.
+2. Under **Build > Pipeline schedules**, create an hourly schedule with cron
+   `17 * * * *`, timezone `Europe/Istanbul`, targeting the default branch.
+
+Optionally add a masked `RENOVATE_GITHUB_COM_TOKEN` CI/CD variable to avoid
+GitHub API rate limits when Renovate looks up GitHub-hosted changelogs and tags.
+{% endif %}
+
+{% endif -%}
 ### Docker
 
 ```bash

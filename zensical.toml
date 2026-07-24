@@ -9,6 +9,7 @@ repo_url = "https://github.com/ilkersigirci/python-template"
 repo_name = "ilkersigirci/python-template"
 copyright = "Maintained by <a href=\"https://blog.ilkerflix.com\">İlker SIĞIRCI</a>."
 docs_dir = "docs"
+watch = ["README.md"]
 nav = [
   { Home = "index.md" },
   { Tutorials = [
@@ -16,6 +17,7 @@ nav = [
     { "IDE Settings" = "tutorials/ide-settings.md" },
     { Uv = "tutorials/uv.md" },
     { Makefile = "tutorials/makefile.md" },
+    { Renovate = "tutorials/renovate.md" },
   ]},
 ]
 
