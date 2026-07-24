@@ -55,6 +55,7 @@ create-example-project: ## Create and test a new project with the cookiecutter t
 		devcontainer=n \
 		package_publish=n \
 		docs=n \
+		renovate=y \
 		mypy=n
 
 test-cookicutter: ## Run cookiecutter tests

@@ -1,8 +1,18 @@
+#{% if cookiecutter.renovate == 'y' and cookiecutter.git_remote_location == 'gitlab' %}
+include:
+  - project: renovate-bot/renovate-runner
+    ref: v26.0.1
+    file: /templates/renovate.gitlab-ci.yml
+#{% endif %}
+
 stages:
   - lint
   - tests
   - package
   - doc
+#{% if cookiecutter.renovate == 'y' and cookiecutter.git_remote_location == 'gitlab' %}
+  - renovate
+#{% endif %}
 
 image: ghcr.io/astral-sh/uv:0.9.26-trixie-slim
 
@@ -72,4 +82,16 @@ Pages:
   pages:
     publish: public
   rules:
+#{% if cookiecutter.renovate == 'y' and cookiecutter.git_remote_location == 'gitlab' %}
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+#{% endif %}
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+#{% if cookiecutter.renovate == 'y' and cookiecutter.git_remote_location == 'gitlab' %}
+renovate:
+  stage: renovate
+  image: ghcr.io/renovatebot/renovate:43.252.1@sha256:298ba0d4a575ff026f296329269ba7f7eb660b6cd287a179803cbbcf94c88526
+  variables:
+    RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_PATH"
+#{% endif %}

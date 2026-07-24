@@ -1,0 +1,59 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "enabledManagers": [
+    "custom.regex",
+    "github-actions",
+    "gitlabci",
+    "gitlabci-include",
+    "pep621"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update Python dependencies in the Cookiecutter template",
+      "managerFilePatterns": [
+        "/^\\{\\{cookiecutter\\.project_name\\}\\}\\/pyproject\\.toml$/"
+      ],
+      "matchStrings": [
+        "(?:^|\\r\\n|\\r|\\n)\\s+\"(?<depName>[A-Za-z0-9_.-]+)(?<currentValue>(?:===|==|~=|!=|<=|>=|<|>)[^\"\\r\\n]+)\"[,]?",
+        "(?:^|\\r\\n|\\r|\\n)\\s*requires\\s*=\\s*\\[\"(?<depName>[A-Za-z0-9_.-]+)(?<currentValue>(?:===|==|~=|!=|<=|>=|<|>)[^\"\\r\\n]+)\"\\]"
+      ],
+      "datasourceTemplate": "pypi",
+      "versioningTemplate": "pep440"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the Renovate version used by GitHub Actions",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/renovate\\.yml$/",
+        "/^\\{\\{cookiecutter\\.project_name\\}\\}\\/\\.github\\/workflows\\/renovate\\.yml$/"
+      ],
+      "matchStrings": [
+        "renovate-version:\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "ghcr.io/renovatebot/renovate",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Keep Cookiecutter Python dependency lower bounds current",
+      "matchManagers": ["custom.regex"],
+      "matchDatasources": ["pypi"],
+      "rangeStrategy": "bump"
+    }
+  ],
+  "timezone": "Europe/Istanbul",
+  "schedule": ["* 10-16 * * 1-5"],
+  "lockFileMaintenance": {
+    "schedule": ["* 10-16 * * 1"]
+  },
+  "prHourlyLimit": 1,
+  "prConcurrentLimit": 10,
+  "commitHourlyLimit": 2,
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "labels": ["dependencies", "python", "renovate"]
+}

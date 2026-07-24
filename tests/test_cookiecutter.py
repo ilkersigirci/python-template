@@ -1,5 +1,6 @@
 """Tests for cookiecutter template generation with different configurations."""
 
+import json
 from itertools import product
 from pathlib import Path
 
@@ -19,9 +20,20 @@ def output_dir(tmp_path):
     return tmp_path
 
 
-# Generate all combinations of yes/no options for 4 parameters
-# This creates all 2^4 = 16 combinations
+# Generate all combinations of the independent project feature options.
 _COMBINATIONS = list(product(["y", "n"], repeat=4))
+
+
+def test_root_renovate_scaffold_dependencies_use_bump_strategy(template_dir):
+    """Ensure scaffold dependency ranges are configured to advance."""
+    renovate_config = json.loads((template_dir / "renovate.json").read_text())
+
+    assert any(
+        rule.get("matchManagers") == ["custom.regex"]
+        and rule.get("matchDatasources") == ["pypi"]
+        and rule.get("rangeStrategy") == "bump"
+        for rule in renovate_config["packageRules"]
+    )
 
 
 @pytest.mark.parametrize(
@@ -48,6 +60,7 @@ def test_cookiecutter_template_combinations(
             "devcontainer": devcontainer,
             "package_publish": package_publish,
             "docs": docs,
+            "renovate": "n",
             "mypy": mypy,
             "open_source_license": "MIT license",
         },
@@ -141,9 +154,12 @@ def test_cookiecutter_template_combinations(
         )
 
 
-@pytest.mark.parametrize("git_remote", ["github", "gitlab"])
-def test_git_remote_location_hook(template_dir, output_dir, git_remote):
-    """Test that the git_remote_location hook correctly removes files."""
+@pytest.mark.parametrize(
+    "git_remote,renovate",
+    product(["github", "gitlab"], ["y", "n"]),
+)
+def test_renovate_generation(template_dir, output_dir, git_remote, renovate):
+    """Test the observable Renovate output for each supported Git remote."""
     project_dir = cookiecutter(
         str(template_dir),
         output_dir=str(output_dir),
@@ -153,13 +169,14 @@ def test_git_remote_location_hook(template_dir, output_dir, git_remote):
             "author": "İlker SIĞIRCI",
             "email": "sigirci.ilker@gmail.com",
             "author_github_handle": "ilkersigirci",
-            "project_name": f"test-git-{git_remote}",
-            "project_slug": f"test_git_{git_remote}",
+            "project_name": f"test-git-{git_remote}-renovate-{renovate}",
+            "project_slug": f"test_git_{git_remote}_renovate_{renovate}",
             "python_version": "3.12",
             "git_remote_location": git_remote,
             "devcontainer": "y",
             "package_publish": "y",
             "docs": "y",
+            "renovate": renovate,
             "mypy": "y",
             "open_source_license": "MIT license",
         },
@@ -169,6 +186,19 @@ def test_git_remote_location_hook(template_dir, output_dir, git_remote):
 
     github_dir = project_path / ".github"
     gitlab_ci = project_path / ".gitlab-ci.yml"
+    renovate_config = project_path / "renovate.json"
+    renovate_workflow = github_dir / "workflows" / "renovate.yml"
+    readme_content = (project_path / "README.md").read_text()
+    renovate_enabled = renovate == "y"
+
+    assert renovate_config.exists() is renovate_enabled
+    assert renovate_workflow.exists() is (
+        renovate_enabled and git_remote == "github"
+    )
+    assert ("## Renovate" in readme_content) is renovate_enabled
+
+    if renovate_enabled:
+        json.loads(renovate_config.read_text())
 
     if git_remote == "github":
         assert github_dir.exists(), ".github directory should exist for github"
@@ -176,3 +206,8 @@ def test_git_remote_location_hook(template_dir, output_dir, git_remote):
     elif git_remote == "gitlab":
         assert not github_dir.exists(), ".github directory should be removed for gitlab"
         assert gitlab_ci.exists(), ".gitlab-ci.yml should exist for gitlab"
+        gitlab_ci_content = gitlab_ci.read_text()
+        assert (
+            "renovate-bot/renovate-runner" in gitlab_ci_content
+        ) is renovate_enabled
+        assert ("\nrenovate:\n" in gitlab_ci_content) is renovate_enabled
