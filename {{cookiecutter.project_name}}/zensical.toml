@@ -1,0 +1,128 @@
+[project]
+site_name = "{{cookiecutter.project_name}}"
+site_dir = "public"
+{% if cookiecutter.git_remote_location == "github" -%}
+site_url = "https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/"
+repo_url = "https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}"
+repo_name = "{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}"
+{% else -%}
+site_url = "https://{{cookiecutter.author_github_handle}}.gitlab.io/{{cookiecutter.project_name}}/"
+repo_url = "https://gitlab.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}"
+repo_name = "{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}"
+{% endif -%}
+site_description = "{{cookiecutter.project_description}}"
+site_author = "{{cookiecutter.author}}"
+edit_uri = "edit/main/docs/"
+copyright = "Copyright &copy; {{cookiecutter.author}}."
+docs_dir = "docs"
+nav = [
+  { Home = "index.md" },
+  { Tutorials = "tutorials.md" },
+  { "How-To Guides" = "how-to-guides.md" },
+  { Reference = "reference.md" },
+  { Explanation = "explanation.md" },
+]
+
+[project.theme]
+variant = "modern"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[project.theme.icon]
+logo = "fontawesome/brands/python"
+{% if cookiecutter.git_remote_location == "github" -%}
+repo = "fontawesome/brands/github"
+{% else -%}
+repo = "fontawesome/brands/gitlab"
+{% endif -%}
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+show_root_heading = false
+show_submodules = true
+docstring_style = "google"
+docstring_section_style = "table"
+line_length = 88
+merge_init_into_class = true
+show_signature = true
+show_signature_annotations = false
+separate_signature = true
+show_bases = true
+show_source = true
+
+[[project.extra.social]]
+{% if cookiecutter.git_remote_location == "github" -%}
+icon = "fontawesome/brands/github"
+link = "https://github.com/{{cookiecutter.author_github_handle}}"
+{% else -%}
+icon = "fontawesome/brands/gitlab"
+link = "https://gitlab.com/{{cookiecutter.author_github_handle}}"
+{% endif -%}
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+
+[project.markdown_extensions.pymdownx.snippets]
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.admonition]
+
+[project.markdown_extensions.attr_list]
+
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.abbr]
+
+[project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_index = "zensical.extensions.emoji.twemoji"
+emoji_generator = "zensical.extensions.emoji.to_svg"
+
+[project.markdown_extensions.tables]
+
+[project.markdown_extensions.def_list]

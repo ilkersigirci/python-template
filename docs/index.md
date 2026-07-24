@@ -5,7 +5,7 @@
 </p style = "margin-bottom: 2rem;">
 ---
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/ilkersigirci/python-template/main.yml?branch=main)](https://github.com/ilkersigirci/python-template/actions/workflows/main.yml?query=branch%3Amain)
+[![Doc Deploy status](https://img.shields.io/github/actions/workflow/status/ilkersigirci/python-template/doc_deploy.yml?branch=main)](https://github.com/ilkersigirci/python-template/actions/workflows/doc_deploy.yml?query=branch%3Amain)
 [![Supported Python versions](https://img.shields.io/badge/python-3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/ilkersigirci/python-template/blob/main/pyproject.toml)
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://ilkersigirci.github.io/python-template/)
 [![License](https://img.shields.io/github/license/ilkersigirci/python-template)](https://img.shields.io/github/license/ilkersigirci/python-template)
@@ -14,6 +14,7 @@
 
 - It uses [cookiecutter](https://github.com/cookiecutter/cookiecutter) for project templating.
 - It uses [uv](https://github.com/astral-sh/uv) for python dependency operations and virtual environment management.
+- It uses [Zensical](https://zensical.org/) for a modern documentation site and automated documentation publishing.
 - It uses `src` layout, which is the recommended layout for python projects to avoid common [pitfalls](https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure).
 - It uses `project.toml` instead of `setup.py` and `setup.cfg`. The reasoning is following:
     - As [official setuptools guide](https://github.com/pypa/setuptools/blob/main/docs/userguide/quickstart.rst) says, " configuring new projects via setup.py is discouraged"

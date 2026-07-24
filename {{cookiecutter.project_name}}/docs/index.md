@@ -16,20 +16,14 @@ and consists of four separate parts:
 Quickly find what you're looking for depending on
 your use case by looking at the different pages.
 
-## MkDocs
+## Documentation workflow
 
--   For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+The site uses [Zensical](https://zensical.org/) with its modern theme.
 
 ```bash
-# Create a new project.
-mkdocs new [dir-name]
+# Start the live-reloading documentation server.
+make doc-serve
 
-# Start the live-reloading docs server.
-mkdocs serve
-
-# Build the documentation site.
-mkdocs build
-
-# Print help message and exit.
-mkdocs -h
+# Run a clean, strict documentation build.
+make doc-build
 ```

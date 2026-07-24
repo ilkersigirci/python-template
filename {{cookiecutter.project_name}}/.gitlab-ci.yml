@@ -66,16 +66,10 @@ Package:
 
 Pages:
   stage: doc
-  script: |
-    echo "*********** Docs Dependency Installation ***********"
-    make -s install-doc
-    echo "*********** Build the project documentation ***********"
-    make -s doc
-  # only:
-  #   - main
+  script:
+    - uv sync --only-group doc
+    - uv run zensical build --clean
+  pages:
+    publish: public
   rules:
-    - if: $CI_COMMIT_REF_NAME == "main"
-      when: manual
-  artifacts:
-    paths:
-      - public
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

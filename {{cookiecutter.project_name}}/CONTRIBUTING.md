@@ -96,6 +96,15 @@ Now, validate that all unit tests are passing:
 make test
 ```
 
+{% if cookiecutter.docs == 'y' -%}
+For documentation changes, preview the site and run a strict build:
+
+```bash
+make doc-serve
+make doc-build
+```
+
+{% endif -%}
 9. Before raising a pull request you should also run tox.
    This will run the tests across different versions of Python:
 

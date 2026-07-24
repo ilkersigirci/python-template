@@ -20,6 +20,12 @@ make -s install-prek
 # Run all hooks (lint + format + checks)
 make -s prek
 
+# Preview the Zensical documentation site
+make -s doc-serve
+
+# Run a clean, strict documentation build
+make -s doc-build
+
 # Profile a file
 make -s profile PROFILE_FILE_PATH=<PATH_TO_FILE>
 ```
