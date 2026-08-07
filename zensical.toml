@@ -18,6 +18,7 @@ nav = [
     { Uv = "tutorials/uv.md" },
     { Makefile = "tutorials/makefile.md" },
     { Renovate = "tutorials/renovate.md" },
+    { "PyPI Trusted Publishing" = "tutorials/pypi-trusted-publishing.md" },
   ]},
 ]
 
