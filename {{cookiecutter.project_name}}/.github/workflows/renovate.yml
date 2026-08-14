@@ -67,5 +67,5 @@ jobs:
           RENOVATE_PLATFORM: github
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
-          renovate-version: 43.279.1
+          renovate-version: 43.288.0
 #{% endraw %}
