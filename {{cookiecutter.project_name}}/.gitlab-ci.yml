@@ -91,7 +91,7 @@ Pages:
 #{% if cookiecutter.renovate == 'y' and cookiecutter.git_remote_location == 'gitlab' %}
 renovate:
   stage: renovate
-  image: ghcr.io/renovatebot/renovate:43.252.1@sha256:298ba0d4a575ff026f296329269ba7f7eb660b6cd287a179803cbbcf94c88526
+  image: ghcr.io/renovatebot/renovate:43.288.0@sha256:3b72fc4274c56f65f53dcd4dcbed3143289358e0a2d96f7af215e6cf1923e5f6
   variables:
     RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_PATH"
 #{% endif %}
