@@ -14,7 +14,7 @@ stages:
   - renovate
 #{% endif %}
 
-image: ghcr.io/astral-sh/uv:0.9.26-trixie-slim
+image: ghcr.io/astral-sh/uv:0.13.6-trixie-slim@sha256:caa9f629fcb575ba2ed6ee160ec51e82e8444f6bdc3fc05c855b2636a5511eb8
 
 variables:
   SRC_PACKAGE: "src/{{cookiecutter.project_slug}}"
